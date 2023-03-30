@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using SmartCarWashDemo.Model.Dto;
-using SmartCarWashDemo.Model.Exceptions.Customer;
+using SmartCarWashDemo.Model.Exceptions;
 using SmartCarWashDemo.Services.DataBase;
 using SmartCarWashDemo.Services.Validators;
 
@@ -52,7 +52,7 @@ namespace SmartCarWashDemo.Controllers
         /// <response code="500">Неизвестная ошибка.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost("~/add/{name}")]
+        [HttpPost("~/[controller]/add/{name}")]
         public IActionResult Add(string name)
         {
             Logger.Debug($"Получен запрос на добавление нового покупателя с именем {name}");
@@ -68,7 +68,7 @@ namespace SmartCarWashDemo.Controllers
             }
             catch {
                 Logger.Error("Не удалось добавить нового пользователя");
-                return InternalServerError();
+                return CommonUtils.InternalServerError();
             }
         }
 
@@ -82,7 +82,7 @@ namespace SmartCarWashDemo.Controllers
         /// <returns>Результат выполнения запроса.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPut("~/update")]
+        [HttpPut("~/[controller]/update")]
         public IActionResult Update([FromBody] UpdateCustomerDto dto)
         {
             Logger.Debug($"Получен запрос на обновление сведений о покупателе с идентификатором {dto.Id}");
@@ -103,13 +103,13 @@ namespace SmartCarWashDemo.Controllers
                 _db.UpdateCustomer(dto.Id, dto.Name, dto.SalesIds);
                 return Ok();
             }
-            catch (CustomerNotFoundException) {
+            catch (EntityNotFoundException) {
                 Logger.Warn($"Не удалось найти пользователя с идентификатором {dto.Id}");
                 return BadRequest();
             }
             catch {
                 Logger.Error("Не удалось обновить сведения о пользователе");
-                return InternalServerError();
+                return CommonUtils.InternalServerError();
             }
         }
 
@@ -123,26 +123,26 @@ namespace SmartCarWashDemo.Controllers
         /// <response code="500">Неизвестная ошибка.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("~/remove/{id}")]
-        public IActionResult RemoveCustomer(long id)
+        [HttpDelete("~/[controller]/remove/{id}")]
+        public IActionResult Remove(long id)
         {
             Logger.Debug($"Получен запрос на удаление покупателя с идентификатором {id}");
             try {
                 _db.RemoveUser(id);
                 return Ok();
             }
-            catch (CustomerNotFoundException) {
+            catch (EntityNotFoundException) {
                 Logger.Warn($"Не удалось найти пользователя с идентификатором {id}");
                 return BadRequest();
             }
             catch {
                 Logger.Error("Не удалось добавить обновить сведения о пользователе");
-                return InternalServerError();
+                return CommonUtils.InternalServerError();
             }
         }
 
         /// <summary>
-        /// 
+        /// Получение сведений о покупателе по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
         /// <returns>Результат выполнения запроса.</returns>
@@ -151,7 +151,7 @@ namespace SmartCarWashDemo.Controllers
         /// <response code="500">Неизвестная ошибка.</response>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomerDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpGet("~/get_user/{id}")]
+        [HttpGet("~/[controller]/get/{id}")]
         public IActionResult Get(long id)
         {
             Logger.Debug($"Получен запрос на получение сведений о покупателе с идентификатором {id}");
@@ -167,23 +167,14 @@ namespace SmartCarWashDemo.Controllers
                     SalesIds = customer.SalesIds
                 });
             }
-            catch (CustomerNotFoundException) {
+            catch (EntityNotFoundException) {
                 Logger.Warn($"Не удалось найти пользователя с идентификатором {id}");
                 return BadRequest();
             }
             catch {
                 Logger.Error("Не удалось добавить обновить сведения о пользователе");
-                return InternalServerError();
+                return CommonUtils.InternalServerError();
             }
-        }
-
-        /// <summary>
-        /// Получение ошибки с кодом 500.
-        /// </summary>
-        /// <returns><see cref="StatusCodeResult"/> с кодом 500.</returns>
-        private IActionResult InternalServerError()
-        {
-            return new StatusCodeResult(StatusCodes.Status500InternalServerError);
         }
     }
 }
