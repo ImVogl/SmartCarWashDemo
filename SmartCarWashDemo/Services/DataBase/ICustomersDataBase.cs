@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using SmartCarWashDemo.Model.DataBase;
-using SmartCarWashDemo.Model.Exceptions.Customer;
+using SmartCarWashDemo.Model.Exceptions;
 
 namespace SmartCarWashDemo.Services.DataBase
 {
@@ -22,14 +22,14 @@ namespace SmartCarWashDemo.Services.DataBase
         /// <param name="id">Идентификатор покупателя.</param>
         /// <param name="name">Имя покупателя.</param>
         /// <param name="saleIds">Коллекция идентификаторов, сделанных покупателем покупок.</param>
-        /// <exception cref="CustomerNotFoundException"><see cref="CustomerNotFoundException"/>.</exception>
+        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
         void UpdateCustomer(long id, string name, IEnumerable<long> saleIds);
 
         /// <summary>
         /// Удаление из базы данных покупателя.
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
-        /// <exception cref="CustomerNotFoundException"><see cref="CustomerNotFoundException"/>.</exception>
+        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
         void RemoveUser(long id);
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace SmartCarWashDemo.Services.DataBase
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
         /// <returns><see cref="Customer"/>.</returns>
-        /// <exception cref="CustomerNotFoundException"><see cref="CustomerNotFoundException"/>.</exception>
+        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
         Customer GetCustomer(long id);
     }
 }

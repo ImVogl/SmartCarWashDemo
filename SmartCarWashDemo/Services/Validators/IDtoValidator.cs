@@ -20,5 +20,12 @@ namespace SmartCarWashDemo.Services.Validators
         /// <param name="dto"><see cref="UpdateCustomerDto"/>.</param>
         /// <returns>Значение, показывающее, что сведения корректны.</returns>
         bool Validate(UpdateCustomerDto dto);
+
+        /// <summary>
+        /// Проверка значение поля <see cref="UpdateProductDto"/>.
+        /// </summary>
+        /// <param name="dto"><see cref="UpdateProductDto"/>.</param>
+        /// <returns>Значение, показывающее, что сведения корректны.</returns>
+        bool Validate(UpdateProductDto dto);
     }
 }
