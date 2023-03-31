@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
@@ -157,7 +157,7 @@ namespace SmartCarWashDemo.Controllers
                     Id = customer.Id,
                     Name = customer.Name,
                     RegistrationDateTime = customer.CreationDateTime,
-                    SalesIds = customer.SalesIds
+                    SalesIds = customer.Sales.Select(sale => sale.Id).ToList()
                 });
             }
             catch (EntityNotFoundException) {

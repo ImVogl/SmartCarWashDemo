@@ -1,4 +1,4 @@
-﻿using SmartCarWashDemo.Model.DataBase;
+﻿using SmartCarWashDemo.Model.DataBase.Point;
 using SmartCarWashDemo.Model.Exceptions;
 using System.Collections.Generic;
 

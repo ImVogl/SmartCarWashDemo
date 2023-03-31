@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartCarWashDemo.Model.DataBase
+namespace SmartCarWashDemo.Model.DataBase.Point
 {
     /// <summary>
     /// Модель сущности базы данных: точка продажи.

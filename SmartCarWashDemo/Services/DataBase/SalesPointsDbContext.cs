@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SmartCarWashDemo.Model.DataBase;
+using SmartCarWashDemo.Model.DataBase.Point;
 
 namespace SmartCarWashDemo.Services.DataBase
 {

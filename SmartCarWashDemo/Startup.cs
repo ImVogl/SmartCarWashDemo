@@ -4,7 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SmartCarWashDemo.Services.DataBase;
 using SmartCarWashDemo.Services.Validators;
+using SmartCarWashDemo.Services.DataBase.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartCarWashDemo
 {
@@ -64,7 +67,13 @@ namespace SmartCarWashDemo
         /// <param name="services">έκηεμολÿπ <see cref="IServiceCollection"/>.</param>
         private void ConfigureContainer(IServiceCollection services)
         {
+            var option = new DbContextOptionsBuilder<DataBaseContext>()
+                .UseInMemoryDatabase(databaseName: "smart_car_wash")
+                .EnableSensitiveDataLogging()
+                .Options;
+
             services.AddScoped<IDtoValidator, DtoValidator>();
+            services.AddScoped<IDataBase>(_ => new DataBaseContext(option));
         }
 
         /// <summary>

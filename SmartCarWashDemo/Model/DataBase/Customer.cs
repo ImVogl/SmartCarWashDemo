@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using SmartCarWashDemo.Model.DataBase.Sales;
 
 namespace SmartCarWashDemo.Model.DataBase
 {
@@ -26,11 +27,9 @@ namespace SmartCarWashDemo.Model.DataBase
         public string Name { get; set; }
 
         /// <summary>
-        /// Получает или задает коллекцию всех идентификаторов сделанных пользователем покупок.
+        /// Получает или задает коллекцию <see cref="Sale"/> для данного пользователя.
         /// </summary>
-        [Required]
-        [Column("sale_ids")]
-        public ICollection<long> SalesIds { get; set; }
+        public ICollection<Sale> Sales { get; set; }
 
         /// <summary>
         /// Получает или задает день и время, когда был создан пользователь.
