@@ -5,23 +5,22 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using SmartCarWashDemo.Model.DataBase.Point;
 using SmartCarWashDemo.Model.Exceptions;
+using SmartCarWashDemo.Services.DataBase.Interfaces;
 
 namespace SmartCarWashDemo.Services.DataBase
 {
     /// <summary>
     /// Контекст базы данных: часть, связанная с таблицей точек продаж.
     /// </summary>
-    public partial class DataBaseContext
+    public partial class DataBaseContext : ISalesPointsDataBase
     {
-        /// <summary>
-        /// Коллекция entity <see cref="SalesPoint"/>.
-        /// </summary>
-        private DbSet<SalesPoint> _salesPoints;
+        /// <inheritdoc />
+        public DbSet<SalesPoint> SalesPoints { get; set; }
 
         /// <inheritdoc />
         public void AddPoint(string name, Dictionary<long, int> products)
         {
-            _salesPoints.Add(new SalesPoint
+            SalesPoints.Add(new SalesPoint
             {
                 Name = name,
                 ProvidedProducts = products.Select(pair => new ProvidedProduct { ProductId = pair.Key, ProductQuantity = pair.Value }).ToList()
@@ -45,7 +44,7 @@ namespace SmartCarWashDemo.Services.DataBase
         public void RemovePoint(long id)
         {
             var point = GetPointInternal(id);
-            _salesPoints.Remove(point);
+            SalesPoints.Remove(point);
             SaveChanges();
         }
 
@@ -61,6 +60,11 @@ namespace SmartCarWashDemo.Services.DataBase
         /// <param name="modelBuilder"><see cref="ModelBuilder"/>.</param>
         private void CreatingSalesPointModel(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ProvidedProduct>().HasIndex(product => product.Id).IsUnique();
+            modelBuilder.Entity<ProvidedProduct>().Property(product => product.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<ProvidedProduct>().Property(product => product.ProductId).IsRequired();
+            modelBuilder.Entity<ProvidedProduct>().Property(product => product.ProductQuantity).IsRequired();
+            
             modelBuilder.Entity<SalesPoint>().HasIndex(point => point.Id).IsUnique();
             modelBuilder.Entity<SalesPoint>().Property(point => point.Id).ValueGeneratedOnAdd();
 
@@ -77,7 +81,7 @@ namespace SmartCarWashDemo.Services.DataBase
         {
             try
             {
-                return _salesPoints
+                return SalesPoints
                            .Include(point => point.ProvidedProducts)
                            .SingleOrDefault(sale => sale.Id == id)
                        ?? throw new EntityNotFoundException();

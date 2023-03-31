@@ -1,14 +1,20 @@
 ﻿using SmartCarWashDemo.Model.Exceptions;
 using SmartCarWashDemo.Model.DataBase.Sales;
 using SmartCarWashDemo.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartCarWashDemo.Services.DataBase.Interfaces
 {
     /// <summary>
     /// Интерфейс базы данных акта продажи.
     /// </summary>
-    public interface ISalesDataBase
+    public interface ISalesDataBase : IDataBase
     {
+        /// <summary>
+        /// Коллекция entity <see cref="Sale"/>.
+        /// </summary>
+        DbSet<Sale> Sales { get; set; }
+
         /// <summary>
         /// Добавление новой точки продажи в базу данных.
         /// </summary>

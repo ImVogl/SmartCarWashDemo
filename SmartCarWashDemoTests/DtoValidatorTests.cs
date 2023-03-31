@@ -17,9 +17,8 @@ namespace SmartCarWashDemoTests
         public void CustomerDtoValidationTest()
         {
             Assert.That(DtoValidator.Validate((CustomerDto)null), Is.False);
-            Assert.That(DtoValidator.Validate(new CustomerDto{ Name = string.Empty, Id = 10, RegistrationDateTime = DateTime.Now, SalesIds = new List<long>() }), Is.False);
-            Assert.That(DtoValidator.Validate(new CustomerDto{ Name = ValidName, Id = 10, RegistrationDateTime = DateTime.Now, SalesIds = null }), Is.False);
-            Assert.That(DtoValidator.Validate(new CustomerDto{ Name = ValidName, Id = 10, RegistrationDateTime = DateTime.Now, SalesIds = new List<long>() }), Is.True);
+            Assert.That(DtoValidator.Validate(new CustomerDto{ Name = string.Empty, Id = 10, RegistrationDateTime = DateTime.Now }), Is.False);
+            Assert.That(DtoValidator.Validate(new CustomerDto{ Name = ValidName, Id = 10, RegistrationDateTime = DateTime.Now }), Is.True);
         }
 
         [Test]

@@ -4,23 +4,22 @@ using SmartCarWashDemo.Model.Exceptions;
 using System.Linq;
 using System;
 using JetBrains.Annotations;
+using SmartCarWashDemo.Services.DataBase.Interfaces;
 
 namespace SmartCarWashDemo.Services.DataBase
 {
     /// <summary>
     /// Контекст базы данных: часть, связанная с таблицей продукции.
     /// </summary>
-    public partial class DataBaseContext
+    public partial class DataBaseContext : IProductsDataBase
     {
-        /// <summary>
-        /// Коллекция entity <see cref="Product"/>.
-        /// </summary>
-        private DbSet<Product> _products;
+        /// <inheritdoc />
+        public DbSet<Product> Products { get; set; }
 
         /// <inheritdoc />
         public void AddProduct(string name, float price)
         {
-            _products.Add(new Product { Name = name, Price = price });
+            Products.Add(new Product { Name = name, Price = price });
             SaveChanges();
         }
 
@@ -37,7 +36,7 @@ namespace SmartCarWashDemo.Services.DataBase
         public void RemoveProduct(long id)
         {
             var product = GetProductInternal(id);
-            _products.Remove(product);
+            Products.Remove(product);
             SaveChanges();
         }
 
@@ -69,7 +68,7 @@ namespace SmartCarWashDemo.Services.DataBase
         private Product GetProductInternal(long id)
         {
             try {
-                return _products.SingleOrDefault(customer => customer.Id == id) ?? throw new EntityNotFoundException();
+                return Products.SingleOrDefault(customer => customer.Id == id) ?? throw new EntityNotFoundException();
             }
             catch (InvalidOperationException) {
                 Logger.Error($"В базе данных обнаружено более одного продукта с идентификатором {id}");

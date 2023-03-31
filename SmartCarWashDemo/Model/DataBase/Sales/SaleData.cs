@@ -6,7 +6,7 @@ namespace SmartCarWashDemo.Model.DataBase.Sales
     /// <summary>
     /// Модель данных со сведениями о проданном товаре.
     /// </summary>
-    public class SaleData
+    public class SaleData : EntityBase
     {
         /// <summary>
         /// Получает или задает идентификатор проданного продукта.

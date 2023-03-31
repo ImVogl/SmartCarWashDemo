@@ -7,15 +7,8 @@ namespace SmartCarWashDemo.Model.DataBase
     /// Модель сущности базы данных: продукт.
     /// </summary>
     [Table("products")]
-    public class Product
+    public class Product : EntityBase
     {
-        /// <summary>
-        /// Получает или задает идентификатор продукта.
-        /// </summary>
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
-
         /// <summary>
         /// Получает или задает имя 
         /// </summary>

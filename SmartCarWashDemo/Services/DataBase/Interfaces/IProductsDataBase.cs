@@ -1,4 +1,5 @@
-﻿using SmartCarWashDemo.Model.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartCarWashDemo.Model.DataBase;
 using SmartCarWashDemo.Model.Exceptions;
 
 namespace SmartCarWashDemo.Services.DataBase.Interfaces
@@ -6,8 +7,13 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
     /// <summary>
     /// Интерфейс базы данных продукции.
     /// </summary>
-    public interface IProductsDataBase
+    public interface IProductsDataBase : IDataBase
     {
+        /// <summary>
+        /// Получает или задает коллекцию entity <see cref="Product"/>.
+        /// </summary>
+        DbSet<Product> Products { get; set; }
+
         /// <summary>
         /// Добавление нового продукта в базу данных.
         /// </summary>

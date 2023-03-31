@@ -5,23 +5,23 @@ using System.Linq;
 using System;
 using JetBrains.Annotations;
 using SmartCarWashDemo.Model;
+using SmartCarWashDemo.Services.DataBase.Interfaces;
+using SmartCarWashDemo.Model.DataBase.Point;
 
 namespace SmartCarWashDemo.Services.DataBase
 {
     /// <summary>
     /// Контекст базы данных: часть, связанная с таблицей актов продаж.
     /// </summary>
-    public partial class DataBaseContext
+    public partial class DataBaseContext : ISalesDataBase
     {
-        /// <summary>
-        /// Коллекция entity <see cref="Sale"/>.
-        /// </summary>
-        private DbSet<Sale> _sales;
+        /// <inheritdoc />
+        public DbSet<Sale> Sales { get; set; }
 
         /// <inheritdoc />
         public void AddSale(SaleInfo info)
         {
-            _sales.Add(ConvertInfoToEntity(info));
+            Sales.Add(ConvertInfoToEntity(info));
             SaveChanges();
         }
 
@@ -44,7 +44,7 @@ namespace SmartCarWashDemo.Services.DataBase
         public void RemoveSale(long id)
         {
             var sale = GetSaleInternal(id);
-            _sales.Remove(sale);
+            Sales.Remove(sale);
             SaveChanges();
         }
 
@@ -60,15 +60,23 @@ namespace SmartCarWashDemo.Services.DataBase
         /// <param name="modelBuilder"><see cref="ModelBuilder"/>.</param>
         private void CreatingSaleModel(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<SaleData>().HasIndex(data => data.Id).IsUnique();
+            modelBuilder.Entity<SaleData>().Property(data => data.Id).ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Sale>().HasIndex(sale => sale.Id).IsUnique();
             modelBuilder.Entity<Sale>().Property(sale => sale.Id).ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Sale>().Property(sale => sale.Date).IsRequired();
             modelBuilder.Entity<Sale>().Property(sale => sale.Time).IsRequired();
             modelBuilder.Entity<Sale>().Property(sale => sale.TotalAmount).IsRequired();
-            modelBuilder.Entity<Sale>().Property(sale => sale.SalesData).IsRequired();
-            modelBuilder.Entity<Sale>().HasOne(sale => sale.SalesPoint).WithOne().IsRequired();
-            modelBuilder.Entity<Sale>().HasOne(sale => sale.Customer).WithOne().IsRequired(false);
+            modelBuilder.Entity<Sale>().HasMany(sale => sale.SalesData).WithOne().IsRequired();
+            // modelBuilder.Entity<Sale>().Property(sale => sale.SalesData).IsRequired();
+            // modelBuilder.Entity<Sale>().Property(sale => sale.Customer).IsRequired(false);
+            modelBuilder.Entity<Sale>()
+                .HasOne(sale => sale.SalesPoint)
+                .WithOne()
+                .HasForeignKey<SalesPoint>(point => point.Id)
+                .IsRequired();
         }
 
         /// <summary>
@@ -80,7 +88,7 @@ namespace SmartCarWashDemo.Services.DataBase
         private Sale GetSaleInternal(long id)
         {
             try {
-                return _sales
+                return Sales
                     .Include(sale => sale.Customer)
                     .Include(sale => sale.SalesPoint)
                     .SingleOrDefault(sale => sale.Id == id)

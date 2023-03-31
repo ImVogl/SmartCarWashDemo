@@ -11,15 +11,8 @@ namespace SmartCarWashDemo.Model.DataBase.Sales
     /// Модель сущности базы данных: акт продажи.
     /// </summary>
     [Table("sales")]
-    public class Sale
+    public class Sale : EntityBase
     {
-        /// <summary>
-        /// Получает или задает идентификатор акта продажи.
-        /// </summary>
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
-
         /// <summary>
         /// Получает или задает день продажи (Увы, но в .NET 5.0 нет DateOnly).
         /// </summary>
@@ -37,24 +30,23 @@ namespace SmartCarWashDemo.Model.DataBase.Sales
         /// <summary>
         /// Получает или задает точку продажи.
         /// </summary>
+        [NotNull]
         [Required]
         [Column("point")]
-        public SalesPoint SalesPoint { get; set; }
+        public SalesPoint SalesPoint { get; set; } = null!;
 
         /// <summary>
         /// Получает или задает идентификатор покупателя.
         /// </summary>
         [CanBeNull]
         [Column("customer")]
-        public Customer? Customer { get; set; }
+        public Customer Customer { get; set; }
 
         /// <summary>
         /// Получает или задает коллекцию <see cref="SaleData"/>.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        [Required]
-        [Column("sales")]
         public ICollection<SaleData> SalesData { get; set; } = null!;
 
         /// <summary>

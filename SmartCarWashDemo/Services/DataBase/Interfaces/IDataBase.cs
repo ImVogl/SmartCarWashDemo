@@ -3,7 +3,11 @@
     /// <summary>
     /// Интерфейс базы данных.
     /// </summary>
-    public interface IDataBase : ICustomersDataBase, IProductsDataBase, ISalesDataBase, ISalesPointsDataBase
+    public interface IDataBase
     {
+        /// <summary>
+        /// Пересоздание базы данных.
+        /// </summary>
+        void ReInitDatabase();
     }
 }

@@ -1,4 +1,5 @@
-﻿using SmartCarWashDemo.Model.DataBase.Point;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartCarWashDemo.Model.DataBase.Point;
 using SmartCarWashDemo.Model.Exceptions;
 using System.Collections.Generic;
 
@@ -7,8 +8,13 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
     /// <summary>
     /// Интерфейс базы данных точек продажи продукции.
     /// </summary>
-    public interface ISalesPointsDataBase
+    public interface ISalesPointsDataBase : IDataBase
     {
+        /// <summary>
+        /// Коллекция entity <see cref="SalesPoint"/>.
+        /// </summary>
+        DbSet<SalesPoint> SalesPoints { get; set; }
+
         /// <summary>
         /// Добавление новой точки продажи в базу данных.
         /// </summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using JetBrains.Annotations;
 using SmartCarWashDemo.Model.DataBase.Sales;
 
 namespace SmartCarWashDemo.Model.DataBase
@@ -10,15 +11,8 @@ namespace SmartCarWashDemo.Model.DataBase
     /// Модель сущности базы данных: покупатель.
     /// </summary>
     [Table("customers")]
-    public class Customer
+    public class Customer : EntityBase
     {
-        /// <summary>
-        /// Получает или задает идентификатор пользователя.
-        /// </summary>
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
-
         /// <summary>
         /// Получает или задает имя пользователя.
         /// </summary>
@@ -29,7 +23,9 @@ namespace SmartCarWashDemo.Model.DataBase
         /// <summary>
         /// Получает или задает коллекцию <see cref="Sale"/> для данного пользователя.
         /// </summary>
-        public ICollection<Sale> Sales { get; set; }
+        [NotNull]
+        [ItemNotNull]
+        public ICollection<Sale> Sales { get; set; } = null!;
 
         /// <summary>
         /// Получает или задает день и время, когда был создан пользователь.

@@ -14,40 +14,29 @@ namespace SmartCarWashDemo.Services.DataBase
     /// <summary>
     /// Контекст базы данных: часть, связанная с таблицей покупателей.
     /// </summary>
-    public partial class DataBaseContext : DbContext, IDataBase
+    public partial class DataBaseContext : ICustomersDataBase
     {
         /// <summary>
         /// Логгер данного класса.
         /// </summary>
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
-        /// <summary>
-        /// Коллекция entity <see cref="Customer"/>.
-        /// </summary>
-        private DbSet<Customer> _customers;
-
-        /// <summary>
-        /// Инициализирует новый экземпляр <see cref="DataBaseContext"/>.
-        /// </summary>
-        /// <param name="options"></param>
-        public DataBaseContext(DbContextOptions options) : base(options)
-        {
-        }
+        /// <inheritdoc />
+        public DbSet<Customer> Customers { get; set; }
 
         /// <inheritdoc />
-        public void AddCustomer(string name, IEnumerable<long> saleIds)
+        public void AddCustomer(string name)
         {
-            var sales = GetSalesWithIds(saleIds);
-            _customers.Add(new Customer { Name = name, CreationDateTime = DateTime.Now, Sales = sales });
+            Customers.Add(new Customer { Name = name, CreationDateTime = DateTime.Now, Sales = new List<Sale>() });
             SaveChanges();
         }
 
         /// <inheritdoc />
-        public void UpdateCustomer(long id, string name, IEnumerable<long> saleIds)
+        public void UpdateCustomer(long id, string name)
         {
             var customer = GetCustomerInternal(id);
             customer.Name = name;
-            customer.Sales = GetSalesWithIds(saleIds);
+
             SaveChanges();
         }
 
@@ -55,7 +44,7 @@ namespace SmartCarWashDemo.Services.DataBase
         public void RemoveCustomer(long id)
         {
             var customer = GetCustomerInternal(id);
-            _customers.Remove(customer);
+            Customers.Remove(customer);
             SaveChanges();
         }
 
@@ -63,17 +52,6 @@ namespace SmartCarWashDemo.Services.DataBase
         public Customer GetCustomer(long id)
         {
             return GetCustomerInternal(id);
-        }
-
-        /// <inheritdoc />
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            CreatingCustomerModel(modelBuilder);
-            CreatingProductModel(modelBuilder);
-            CreatingSaleModel(modelBuilder);
-            CreatingSalesPointModel(modelBuilder);
         }
 
         /// <summary>
@@ -87,11 +65,10 @@ namespace SmartCarWashDemo.Services.DataBase
 
             modelBuilder.Entity<Customer>().Property(customer => customer.Name).IsRequired();
             modelBuilder.Entity<Customer>().Property(customer => customer.CreationDateTime).IsRequired();
-            modelBuilder.Entity<Customer>().Property(customer => customer.Sales).IsRequired();
             modelBuilder.Entity<Customer>()
                 .HasMany(customer => customer.Sales)
-                .WithOne()
-                .HasForeignKey(sale => sale.Customer)
+                .WithOne(customer => customer.Customer)
+                .HasForeignKey(sale => sale.Id)
                 .IsRequired();
         }
 
@@ -104,7 +81,7 @@ namespace SmartCarWashDemo.Services.DataBase
         private Customer GetCustomerInternal(long id)
         {
             try {
-                return _customers
+                return Customers
                            .Include(customer => customer.Sales)
                            .SingleOrDefault(customer => customer.Id == id)
                        ?? throw new EntityNotFoundException();
@@ -113,27 +90,6 @@ namespace SmartCarWashDemo.Services.DataBase
                 Logger.Error($"В базе данных обнаружено более одного пользователя с идентификатором {id}");
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Получение список <see cref="Sale"/>.
-        /// </summary>
-        /// <param name="saleIds">Идентификаторы актов продаж.</param>
-        /// <returns>Список <see cref="Sale"/>.</returns>
-        private List<Sale> GetSalesWithIds(IEnumerable<long> saleIds)
-        {
-            var sales = new List<Sale>();
-            foreach (var id in saleIds)
-            {
-                try {
-                    sales.Add(GetSale(id));
-                }
-                catch (EntityNotFoundException) {
-                    Logger.Warn($"При попытке добавить нового пользователя не удалось добавить акт продажи с идентификатором {id}");
-                }
-            }
-
-            return sales;
         }
     }
 }

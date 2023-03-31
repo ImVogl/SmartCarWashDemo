@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using SmartCarWashDemo.Model.DataBase;
 using SmartCarWashDemo.Model.Exceptions;
 
@@ -7,23 +7,26 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
     /// <summary>
     /// Интерфейс базы данных пользователей
     /// </summary>
-    public interface ICustomersDataBase
+    public interface ICustomersDataBase : IDataBase
     {
+        /// <summary>
+        /// Получает или задает коллекцию entity <see cref="Customer"/>.
+        /// </summary>
+        public DbSet<Customer> Customers { get; set; }
+
         /// <summary>
         /// Добавление в базу данных нового покупателя.
         /// </summary>
         /// <param name="name">Имя покупателя.</param>
-        /// <param name="saleIds">Коллекция идентификаторов, сделанных покупателем покупок.</param>
-        void AddCustomer(string name, IEnumerable<long> saleIds);
+        void AddCustomer(string name);
 
         /// <summary>
         /// Обновление сведений о покупателе.
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
         /// <param name="name">Имя покупателя.</param>
-        /// <param name="saleIds">Коллекция идентификаторов, сделанных покупателем покупок.</param>
         /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
-        void UpdateCustomer(long id, string name, IEnumerable<long> saleIds);
+        void UpdateCustomer(long id, string name);
 
         /// <summary>
         /// Удаление из базы данных покупателя.

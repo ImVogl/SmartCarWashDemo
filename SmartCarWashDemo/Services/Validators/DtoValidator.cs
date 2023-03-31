@@ -14,10 +14,7 @@ namespace SmartCarWashDemo.Services.Validators
             if (dto == null)
                 return false;
 
-            if (string.IsNullOrWhiteSpace(dto.Name))
-                return false;
-
-            return dto.SalesIds != null;
+            return !string.IsNullOrWhiteSpace(dto.Name);
         }
 
         /// <inheritdoc />

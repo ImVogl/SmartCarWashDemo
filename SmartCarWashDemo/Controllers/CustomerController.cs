@@ -63,7 +63,7 @@ namespace SmartCarWashDemo.Controllers
             }
 
             try {
-                _db.AddCustomer(dto.Name, dto.SalesIds);
+                _db.AddCustomer(dto.Name);
                 return Ok();
             }
             catch {
@@ -93,7 +93,7 @@ namespace SmartCarWashDemo.Controllers
             }
 
             try {
-                _db.UpdateCustomer(dto.Id, dto.Name, dto.SalesIds);
+                _db.UpdateCustomer(dto.Id, dto.Name);
                 return Ok();
             }
             catch (EntityNotFoundException) {
@@ -156,8 +156,7 @@ namespace SmartCarWashDemo.Controllers
                 {
                     Id = customer.Id,
                     Name = customer.Name,
-                    RegistrationDateTime = customer.CreationDateTime,
-                    SalesIds = customer.Sales.Select(sale => sale.Id).ToList()
+                    RegistrationDateTime = customer.CreationDateTime
                 });
             }
             catch (EntityNotFoundException) {
@@ -176,12 +175,9 @@ namespace SmartCarWashDemo.Controllers
         /// <param name="dto"><see cref="CustomerDto"/>.</param>
         private void LogBadDto(CustomerDto dto)
         {
-            var message = string.Format("Сведения о пользователе некорректны. Полученные сведения: {0}; {1}; {2}",
+            var message = string.Format("Сведения о пользователе некорректны. Полученные сведения: {0}; {1}",
                 $"идентификатор  - {dto.Id}",
-                $"имя - {dto.Name}",
-                dto.SalesIds == null
-                    ? "идентификаторы проданных товаров - null"
-                    : $"идентификаторы проданных товаров - {string.Join("; ", dto.SalesIds)}");
+                $"имя - {dto.Name}");
 
             Logger.Warn(message);
         }

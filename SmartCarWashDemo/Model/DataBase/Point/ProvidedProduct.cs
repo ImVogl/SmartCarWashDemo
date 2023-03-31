@@ -7,13 +7,13 @@ namespace SmartCarWashDemo.Model.DataBase.Point
     /// Модель со сведениями о продуктах, доступных на точке продажи.
     /// </summary>
     [Table("provided_product")]
-    public class ProvidedProduct
+    public class ProvidedProduct : EntityBase
     {
         /// <summary>
         /// Получает или задает идентификатор продукта.
         /// </summary>
         [Required]
-        [Column("id")]
+        [Column("product_id")]
         public long ProductId { get; set; }
 
         /// <summary>
