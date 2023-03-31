@@ -45,7 +45,7 @@ namespace SmartCarWashDemo.Controllers
         /// <summary>
         /// Добавление нового покупателя.
         /// </summary>
-        /// <param name="name">Имя пользователя.</param>
+        /// <param name="dto">Сведения о покупателе.</param>
         /// <returns>Результат выполнения запроса.</returns>
         /// <response code="200">Добавлен новый пользователь.</response>
         /// <response code="400">Введено некорректное имя покупателя.</response>
@@ -53,17 +53,17 @@ namespace SmartCarWashDemo.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("~/[controller]/add/{name}")]
-        public IActionResult Add(string name)
+        public IActionResult Add([FromBody] CustomerDto dto)
         {
-            Logger.Debug($"Получен запрос на добавление нового покупателя с именем {name}");
-            if (!_validator.ValidateName(name))
+            Logger.Debug($"Получен запрос на добавление нового покупателя с именем {dto.Name}");
+            if (!_validator.Validate(dto))
             {
-                Logger.Warn($"Имя покупателя некорректно {name}");
+                LogBadDto(dto);
                 return BadRequest();
             }
 
             try {
-                _db.AddCustomer(name, new List<long>());
+                _db.AddCustomer(dto.Name, dto.SalesIds);
                 return Ok();
             }
             catch {
@@ -83,19 +83,12 @@ namespace SmartCarWashDemo.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("~/[controller]/update")]
-        public IActionResult Update([FromBody] UpdateCustomerDto dto)
+        public IActionResult Update([FromBody] CustomerDto dto)
         {
             Logger.Debug($"Получен запрос на обновление сведений о покупателе с идентификатором {dto.Id}");
             if (!_validator.Validate(dto))
             {
-                var message = string.Format("Сведения о пользователе некорректны. Полученные сведения: {0}; {1}; {2}",
-                    $"идентификатор  - {dto.Id}",
-                    $"имя - {dto.Name}",
-                    dto.SalesIds == null
-                        ?  "идентификаторы проданных товаров - null"
-                        : $"идентификаторы проданных товаров - {string.Join("; ", dto.SalesIds)}");
-
-                Logger.Warn(message);
+                LogBadDto(dto);
                 return BadRequest();
             }
 
@@ -175,6 +168,22 @@ namespace SmartCarWashDemo.Controllers
                 Logger.Error("Не удалось добавить обновить сведения о пользователе");
                 return CommonUtils.InternalServerError();
             }
+        }
+
+        /// <summary>
+        /// Логгирование ошибки, связанной с некорректным DTO.
+        /// </summary>
+        /// <param name="dto"><see cref="CustomerDto"/>.</param>
+        private void LogBadDto(CustomerDto dto)
+        {
+            var message = string.Format("Сведения о пользователе некорректны. Полученные сведения: {0}; {1}; {2}",
+                $"идентификатор  - {dto.Id}",
+                $"имя - {dto.Name}",
+                dto.SalesIds == null
+                    ? "идентификаторы проданных товаров - null"
+                    : $"идентификаторы проданных товаров - {string.Join("; ", dto.SalesIds)}");
+
+            Logger.Warn(message);
         }
     }
 }

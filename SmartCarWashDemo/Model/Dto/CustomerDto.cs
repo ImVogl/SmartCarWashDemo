@@ -7,22 +7,8 @@ namespace SmartCarWashDemo.Model.Dto
     /// <summary>
     /// DTO со сведениями о покупателе.
     /// </summary>
-    public class CustomerDto
+    public class CustomerDto : BaseDto
     {
-        /// <summary>
-        /// Получает или задает идентификатор пользователя.
-        /// </summary>
-        [JsonRequired]
-        [JsonProperty("id")]
-        public long Id { get; set; }
-
-        /// <summary>
-        /// Получает или задает имя пользователя.
-        /// </summary>
-        [JsonRequired]
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
         /// <summary>
         /// Получает или задает коллекцию всех идентификаторов сделанных пользователем покупок.
         /// </summary>

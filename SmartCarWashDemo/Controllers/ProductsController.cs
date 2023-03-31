@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
-using SmartCarWashDemo.Model.DataBase;
 using SmartCarWashDemo.Model.Dto;
 using SmartCarWashDemo.Model.Exceptions;
 using SmartCarWashDemo.Services.DataBase;
@@ -45,20 +44,25 @@ namespace SmartCarWashDemo.Controllers
         /// <summary>
         /// Добавление нового продукта.
         /// </summary>
-        /// <param name="name">Название продукта.</param>
-        /// <param name="price">Стоимость товара.</param>
+        /// <param name="dto">Сведения о добавляемом продукте.</param>
         /// <returns>Результат выполнения запроса.</returns>
         /// <response code="200">Добавлен новый продукт.</response>
         /// <response code="400">Введено некорректное название или стоимость продукта.</response>
         /// <response code="500">Неизвестная ошибка.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost("~/[controller]/add/{name}/{price}")]
-        public IActionResult Add(string name, float price)
+        [HttpPost("~/[controller]/add")]
+        public IActionResult Add([FromBody] ProductDto dto)
         {
-            Logger.Debug($"Получен запрос на добавление нового продукта {name} со стоимостью {price:F} рублей");
+            if (!_validator.Validate(dto))
+            {
+                LogBadDto(dto);
+                return BadRequest();
+            }
+
+            Logger.Debug($"Получен запрос на добавление нового продукта {dto.Name} со стоимостью {dto.Price:F} рублей");
             try {
-                _db.AddProduct(name, price);
+                _db.AddProduct(dto.Name, dto.Price);
                 return Ok();
             }
             catch {
@@ -70,7 +74,7 @@ namespace SmartCarWashDemo.Controllers
         /// <summary>
         /// Обновление сведений о существующем продукте.
         /// </summary>
-        /// <param name="dto"><see cref="UpdateProductDto"/>.</param>
+        /// <param name="dto"><see cref="ProductDto"/>.</param>
         /// <returns>Результат выполнения запроса.</returns>
         /// <response code="200">Продукт был обновлен.</response>
         /// <response code="400">Введено некорректное название или стоимость продукта.</response>
@@ -78,20 +82,15 @@ namespace SmartCarWashDemo.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("~/[controller]/update")]
-        public IActionResult Update([FromBody] UpdateProductDto dto)
+        public IActionResult Update([FromBody] ProductDto dto)
         {
-            Logger.Debug($"Получен запрос на обновление продукта с идентификатором {dto.Id}, именем {dto.Name} и со стоимостью {dto.Price:F} рублей");
             if (!_validator.Validate(dto))
             {
-                var message = string.Format("Сведения о пользователе некорректны. Полученные сведения: {0}; {1}; {2}",
-                    $"идентификатор  - {dto.Id}",
-                    $"имя - {dto.Name}",
-                    $"цена - {dto.Price}");
-
-                Logger.Warn(message);
+                LogBadDto(dto);
                 return BadRequest();
             }
 
+            Logger.Debug($"Получен запрос на обновление продукта с идентификатором {dto.Id}, именем {dto.Name} и со стоимостью {dto.Price:F} рублей");
             try {
                 _db.UpdateProduct(dto.Id, dto.Name, dto.Price);
                 return Ok();
@@ -114,6 +113,8 @@ namespace SmartCarWashDemo.Controllers
         /// <response code="200">Продукт был удален.</response>
         /// <response code="400">Не удалось найти продукт с заданным идентификатором.</response>
         /// <response code="500">Неизвестная ошибка.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("~/[controller]/remove/{id}")]
         public IActionResult Remove(long id)
         {
@@ -140,14 +141,15 @@ namespace SmartCarWashDemo.Controllers
         /// <response code="200">Получены сведения о продукте.</response>
         /// <response code="400">Не удалось найти продукт с заданным идентификатором.</response>
         /// <response code="500">Неизвестная ошибка.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("~/[controller]/get/{id}")]
         public IActionResult Get(long id)
         {
             Logger.Debug($"Получен запрос на получение товара с идентификатором {id}");
-            try
-            {
+            try {
                 var product = _db.GetProduct(id);
-                return Ok(new Product { Id = product.Id, Name = product.Name, Price = product.Price });
+                return Ok(new ProductDto { Id = product.Id, Name = product.Name, Price = product.Price });
             }
             catch (EntityNotFoundException) {
                 Logger.Warn($"Не удалось получить продукт с идентификатором {id}, так как продукт с таким идентификатором не существует.");
@@ -157,6 +159,20 @@ namespace SmartCarWashDemo.Controllers
                 Logger.Error("Не удалось получить продукт");
                 return CommonUtils.InternalServerError();
             }
+        }
+
+        /// <summary>
+        /// Логгирование ошибки, связанной с некорректным DTO.
+        /// </summary>
+        /// <param name="dto"><see cref="ProductDto"/>.</param>
+        private void LogBadDto(ProductDto dto)
+        {
+            var message = string.Format("Сведения о продукте некорректны. Полученные сведения: {0}; {1}; {2}",
+                $"идентификатор  - {dto.Id}",
+                $"имя - {dto.Name}",
+                $"цена - {dto.Price}");
+
+            Logger.Warn(message);
         }
     }
 }

@@ -8,24 +8,24 @@ namespace SmartCarWashDemo.Services.Validators
     public interface IDtoValidator
     {
         /// <summary>
-        /// Проверка имени покупателя.
+        /// Проверка значение полей <see cref="CustomerDto"/>.
         /// </summary>
-        /// <param name="name">Имя покупателя.</param>
-        /// <returns>Значение, показывающее, что имя покупателя корректно.</returns>
-        bool ValidateName(string name);
+        /// <param name="dto"><see cref="CustomerDto"/>.</param>
+        /// <returns>Значение, показывающее, что сведения корректны.</returns>
+        bool Validate(CustomerDto dto);
 
         /// <summary>
-        /// Проверка <see cref="UpdateCustomerDto"/>.
+        /// Проверка значение полей <see cref="ProductDto"/>.
         /// </summary>
-        /// <param name="dto"><see cref="UpdateCustomerDto"/>.</param>
+        /// <param name="dto"><see cref="ProductDto"/>.</param>
         /// <returns>Значение, показывающее, что сведения корректны.</returns>
-        bool Validate(UpdateCustomerDto dto);
+        bool Validate(ProductDto dto);
 
         /// <summary>
-        /// Проверка значение поля <see cref="UpdateProductDto"/>.
+        /// Проверка значение полей <see cref="SalesPointDto"/>.
         /// </summary>
-        /// <param name="dto"><see cref="UpdateProductDto"/>.</param>
+        /// <param name="dto"><see cref="SalesPointDto"/>.</param>
         /// <returns>Значение, показывающее, что сведения корректны.</returns>
-        bool Validate(UpdateProductDto dto);
+        bool Validate(SalesPointDto dto);
     }
 }
