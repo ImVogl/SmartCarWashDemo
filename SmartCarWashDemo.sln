@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCarWashDemo", "SmartCarWashDemo\SmartCarWashDemo.csproj", "{C2395F06-BBAD-4B02-847E-15D93D3C62CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCarWashDemoTests", "SmartCarWashDemoTests\SmartCarWashDemoTests.csproj", "{D1340A36-D164-4F58-8B34-9A5AF2777038}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C2395F06-BBAD-4B02-847E-15D93D3C62CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2395F06-BBAD-4B02-847E-15D93D3C62CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2395F06-BBAD-4B02-847E-15D93D3C62CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1340A36-D164-4F58-8B34-9A5AF2777038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1340A36-D164-4F58-8B34-9A5AF2777038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1340A36-D164-4F58-8B34-9A5AF2777038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1340A36-D164-4F58-8B34-9A5AF2777038}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

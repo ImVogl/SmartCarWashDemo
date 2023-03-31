@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SmartCarWashDemo.Services.Validators;
 
 namespace SmartCarWashDemo
 {
@@ -27,23 +28,15 @@ namespace SmartCarWashDemo
         public IConfiguration Configuration { get; }
         
         /// <summary>
-        /// Настройка Swagger.
+        /// Конфигурация служб.
         /// </summary>
         /// <param name="services">Экземпляр <see cref="IServiceCollection"/>.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers().AddNewtonsoftJson();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartCarWashDemo", Version = "v1" });
-            });
-
-            services.AddSwaggerGenNewtonsoftSupport();
+            ConfigureContainer(services);
+            ConfigureSwagger(services);
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-
+        
         /// <summary>
         /// Настройка приложения.
         /// </summary>
@@ -63,6 +56,30 @@ namespace SmartCarWashDemo
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// Регистрация зависимостей.
+        /// </summary>
+        /// <param name="services">Экземпляр <see cref="IServiceCollection"/>.</param>
+        private void ConfigureContainer(IServiceCollection services)
+        {
+            services.AddScoped<IDtoValidator, DtoValidator>();
+        }
+
+        /// <summary>
+        /// Настройка Swagger.
+        /// </summary>
+        /// <param name="services">Экземпляр <see cref="IServiceCollection"/>.</param>
+        private void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartCarWashDemo", Version = "v1" });
+            });
+
+            services.AddSwaggerGenNewtonsoftSupport();
         }
     }
 }

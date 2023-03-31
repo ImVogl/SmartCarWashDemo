@@ -2,8 +2,6 @@
 using JetBrains.Annotations;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace SmartCarWashDemo.Model.Dto.Sales
 {
