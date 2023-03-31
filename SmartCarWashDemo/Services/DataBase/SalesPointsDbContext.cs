@@ -21,25 +21,50 @@ namespace SmartCarWashDemo.Services.DataBase
         /// <inheritdoc />
         public void AddPoint(string name, Dictionary<long, int> products)
         {
-            throw new System.NotImplementedException();
+            _salesPoints.Add(new SalesPoint
+            {
+                Name = name,
+                ProvidedProducts = products.Select(pair => new ProvidedProduct { ProductId = pair.Key, ProductQuantity = pair.Value }).ToList()
+            });
+
+            SaveChanges();
         }
 
         /// <inheritdoc />
         public void UpdatePoint(long id, string name, Dictionary<long, int> products)
         {
-            throw new System.NotImplementedException();
+            var point = GetPointInternal(id);
+            point.Name = name;
+            point.ProvidedProducts = products.Select(pair => new ProvidedProduct
+                { ProductId = pair.Key, ProductQuantity = pair.Value }).ToList();
+
+            SaveChanges();
         }
 
         /// <inheritdoc />
         public void RemovePoint(long id)
         {
-            throw new System.NotImplementedException();
+            var point = GetPointInternal(id);
+            _salesPoints.Remove(point);
+            SaveChanges();
         }
 
         /// <inheritdoc />
         public SalesPoint GetPoint(long id)
         {
-            throw new System.NotImplementedException();
+            return GetPointInternal(id);
+        }
+
+        /// <summary>
+        /// Построение таблиц точек продаж.
+        /// </summary>
+        /// <param name="modelBuilder"><see cref="ModelBuilder"/>.</param>
+        private void CreatingSalesPointModel(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SalesPoint>().HasIndex(point => point.Id).IsUnique();
+            modelBuilder.Entity<SalesPoint>().Property(point => point.Id).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<SalesPoint>().HasMany(point => point.ProvidedProducts).WithOne().IsRequired();
         }
 
         /// <summary>
@@ -53,6 +78,7 @@ namespace SmartCarWashDemo.Services.DataBase
             try
             {
                 return _salesPoints
+                           .Include(point => point.ProvidedProducts)
                            .SingleOrDefault(sale => sale.Id == id)
                        ?? throw new EntityNotFoundException();
             }

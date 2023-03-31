@@ -73,6 +73,7 @@ namespace SmartCarWashDemo.Services.DataBase
             CreatingCustomerModel(modelBuilder);
             CreatingProductModel(modelBuilder);
             CreatingSaleModel(modelBuilder);
+            CreatingSalesPointModel(modelBuilder);
         }
 
         /// <summary>

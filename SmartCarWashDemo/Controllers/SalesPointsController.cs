@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using SmartCarWashDemo.Model.Dto;
@@ -143,7 +144,11 @@ namespace SmartCarWashDemo.Controllers
             Logger.Debug($"Получен запрос на получение точки продажи с идентификатором {id}");
             try {
                 var point = _db.GetPoint(id);
-                return Ok(new SalesPointDto { Id = point.Id, Name = point.Name, ProvidedProducts = point.ProvidedProducts });
+                return Ok(new SalesPointDto
+                {
+                    Id = point.Id, Name = point.Name,
+                    ProvidedProducts = point.ProvidedProducts.ToDictionary(product => product.ProductId, product => product.ProductQuantity)
+                });
             }
             catch (EntityNotFoundException) {
                 Logger.Warn($"Не удалось получить точку продажи с идентификатором {id}, так как точка продажи с таким идентификатором не существует.");

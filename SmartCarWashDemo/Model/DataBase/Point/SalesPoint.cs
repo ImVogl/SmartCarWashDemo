@@ -25,12 +25,10 @@ namespace SmartCarWashDemo.Model.DataBase.Point
         public string Name { get; set; }
 
         /// <summary>
-        /// Получает или задает словарь, где ключ - идентификатор продукта, а значение - число товаров доступных к продаже.
-        /// P.S. Я читал задание, где указано, что нужно использовать сущность ProvidedProduct. Но в тестовом задании не предполагается, что
-        /// элементы коллекции должны быть доступны для расширения.
+        /// Получает или задает коллекцию <see cref="ProvidedProduct"/>.
         /// </summary>
         [Required]
         [Column("products")]
-        public Dictionary<long, int> ProvidedProducts { get; set; }
+        public ICollection<ProvidedProduct> ProvidedProducts { get; set; }
     }
 }
