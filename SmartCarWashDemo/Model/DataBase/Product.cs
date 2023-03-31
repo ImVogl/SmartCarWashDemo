@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SmartCarWashDemo.Model.DataBase
 {
     /// <summary>
-    /// Модель сущности базы данных продукт.
+    /// Модель сущности базы данных: продукт.
     /// </summary>
     [Table("products")]
     public class Product

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using SmartCarWashDemo.Model.Dto;
 using SmartCarWashDemo.Model.Exceptions;
-using SmartCarWashDemo.Services.DataBase;
+using SmartCarWashDemo.Services.DataBase.Interfaces;
 using SmartCarWashDemo.Services.Validators;
 
 namespace SmartCarWashDemo.Controllers

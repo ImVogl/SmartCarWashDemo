@@ -2,7 +2,7 @@
 using SmartCarWashDemo.Model.Exceptions;
 using System.Collections.Generic;
 
-namespace SmartCarWashDemo.Services.DataBase
+namespace SmartCarWashDemo.Services.DataBase.Interfaces
 {
     /// <summary>
     /// Интерфейс базы данных точек продажи продукции.

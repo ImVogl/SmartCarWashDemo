@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using SmartCarWashDemo.Model.Dto;
 using SmartCarWashDemo.Model.Exceptions;
-using SmartCarWashDemo.Services.DataBase;
+using SmartCarWashDemo.Services.DataBase.Interfaces;
 using SmartCarWashDemo.Services.Validators;
 
 namespace SmartCarWashDemo.Controllers
@@ -121,7 +121,7 @@ namespace SmartCarWashDemo.Controllers
         {
             Logger.Debug($"Получен запрос на удаление покупателя с идентификатором {id}");
             try {
-                _db.RemoveUser(id);
+                _db.RemoveCustomer(id);
                 return Ok();
             }
             catch (EntityNotFoundException) {

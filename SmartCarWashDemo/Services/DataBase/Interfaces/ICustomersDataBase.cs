@@ -2,7 +2,7 @@
 using SmartCarWashDemo.Model.DataBase;
 using SmartCarWashDemo.Model.Exceptions;
 
-namespace SmartCarWashDemo.Services.DataBase
+namespace SmartCarWashDemo.Services.DataBase.Interfaces
 {
     /// <summary>
     /// Интерфейс базы данных пользователей
@@ -30,7 +30,7 @@ namespace SmartCarWashDemo.Services.DataBase
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
         /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
-        void RemoveUser(long id);
+        void RemoveCustomer(long id);
 
         /// <summary>
         /// Получение покупателя с заданным идентификатором.

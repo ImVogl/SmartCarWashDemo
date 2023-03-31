@@ -1,7 +1,7 @@
 ﻿using SmartCarWashDemo.Model.DataBase;
 using SmartCarWashDemo.Model.Exceptions;
 
-namespace SmartCarWashDemo.Services.DataBase
+namespace SmartCarWashDemo.Services.DataBase.Interfaces
 {
     /// <summary>
     /// Интерфейс базы данных продукции.
