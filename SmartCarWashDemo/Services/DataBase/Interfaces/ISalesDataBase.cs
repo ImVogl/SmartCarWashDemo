@@ -1,5 +1,6 @@
 ﻿using SmartCarWashDemo.Model.Exceptions;
 using SmartCarWashDemo.Model.DataBase.Sales;
+using SmartCarWashDemo.Model;
 
 namespace SmartCarWashDemo.Services.DataBase.Interfaces
 {
@@ -12,14 +13,14 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// Добавление новой точки продажи в базу данных.
         /// </summary>
         /// <param name="entity"><see cref="Sale"/>.</param>
-        void AddSale(Sale entity);
+        void AddSale(SaleInfo entity);
 
         /// <summary>
         /// Обновление сведений о точке продажи в базе данных.
         /// </summary>
         /// <param name="entity"><see cref="Sale"/>.</param>
         /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для точки продажи.</exception>
-        void UpdateSale(Sale entity);
+        void UpdateSale(SaleInfo entity);
 
         /// <summary>
         /// Удаляет точку продажи из базы данных.

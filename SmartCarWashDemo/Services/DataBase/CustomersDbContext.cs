@@ -72,6 +72,7 @@ namespace SmartCarWashDemo.Services.DataBase
 
             CreatingCustomerModel(modelBuilder);
             CreatingProductModel(modelBuilder);
+            CreatingSaleModel(modelBuilder);
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace SmartCarWashDemo.Services.DataBase
             modelBuilder.Entity<Customer>()
                 .HasMany(customer => customer.Sales)
                 .WithOne()
-                .HasForeignKey(sale => sale.CustomerId)
+                .HasForeignKey(sale => sale.Customer)
                 .IsRequired();
         }
 

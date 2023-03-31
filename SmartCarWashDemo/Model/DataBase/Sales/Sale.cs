@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using JetBrains.Annotations;
+using SmartCarWashDemo.Model.DataBase.Point;
 
 namespace SmartCarWashDemo.Model.DataBase.Sales
 {
@@ -34,18 +35,18 @@ namespace SmartCarWashDemo.Model.DataBase.Sales
         public TimeSpan Time { get; set; }
 
         /// <summary>
-        /// Получает или задает идентификатор точки продажи.
+        /// Получает или задает точку продажи.
         /// </summary>
         [Required]
-        [Column("point_id")]
-        public long SalesPointId { get; set; }
+        [Column("point")]
+        public SalesPoint SalesPoint { get; set; }
 
         /// <summary>
         /// Получает или задает идентификатор покупателя.
         /// </summary>
         [CanBeNull]
-        [Column("customer_id")]
-        public long? CustomerId { get; set; }
+        [Column("customer")]
+        public Customer? Customer { get; set; }
 
         /// <summary>
         /// Получает или задает коллекцию <see cref="SaleData"/>.

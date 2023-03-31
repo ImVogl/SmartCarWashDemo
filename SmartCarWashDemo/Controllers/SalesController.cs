@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using SmartCarWashDemo.Model;
 using SmartCarWashDemo.Model.DataBase.Sales;
 using SmartCarWashDemo.Model.Dto.Sales;
 using SmartCarWashDemo.Model.Exceptions;
@@ -64,7 +65,7 @@ namespace SmartCarWashDemo.Controllers
 
             Logger.Debug("Получен запрос на добавление нового акта продажи");
             try {
-                _db.AddSale(ConvertDtoToEntity(dto));
+                _db.AddSale(ConvertDtoToInfo(dto));
                 return Ok();
             }
             catch {
@@ -94,7 +95,7 @@ namespace SmartCarWashDemo.Controllers
 
             Logger.Debug($"Получен запрос на обновление акта продажи с идентификатором {dto.Id}");
             try {
-                _db.UpdateSale(ConvertDtoToEntity(dto));
+                _db.UpdateSale(ConvertDtoToInfo(dto));
                 return Ok();
             }
             catch (EntityNotFoundException) {
@@ -190,19 +191,24 @@ namespace SmartCarWashDemo.Controllers
         /// Преобразование DTO в сущность базы данных.
         /// </summary>
         /// <param name="dto"><see cref="SaleDto"/>.</param>
-        /// <returns><see cref="Sale"/>.</returns>
-        private Sale ConvertDtoToEntity(SaleDto dto)
+        /// <returns><see cref="SaleInfo"/>.</returns>
+        private SaleInfo ConvertDtoToInfo(SaleDto dto)
         {
             var salesData = dto.SalesData
                 .Select(data => new SaleData { ProductId = data.ProductId, ProductAmount = data.ProductAmount, ProductQuantity = data.ProductQuantity }).ToList();
 
             var now = DateTime.Now;
-            return new Sale
+            return new SaleInfo
             {
                 Id = dto.Id,
                 SalesPointId = dto.SalesPointId,
                 CustomerId = dto.CustomerId,
-                SalesData = salesData,
+                SalesData = salesData.Select(data => new SaleDataInfo
+                {
+                    ProductAmount = data.ProductAmount, ProductId = data.ProductId,
+                    ProductQuantity = data.ProductQuantity
+                }).ToList(),
+
                 Date = now.Date,
                 Time = now.TimeOfDay,
                 TotalAmount = salesData.Aggregate(0f, (sum, item) => sum + item.ProductAmount)
@@ -219,8 +225,8 @@ namespace SmartCarWashDemo.Controllers
             return new SaleDto
             {
                 Id = entity.Id,
-                SalesPointId = entity.SalesPointId,
-                CustomerId = entity.CustomerId,
+                SalesPointId = entity.SalesPoint.Id,
+                CustomerId = entity.Customer?.Id,
                 TotalAmount = entity.TotalAmount,
                 SellDateTime = entity.Date.Add(entity.Time),
                 SalesData = entity.SalesData
