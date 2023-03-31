@@ -69,7 +69,9 @@ namespace SmartCarWashDemo.Services.DataBase
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             CreatingCustomerModel(modelBuilder);
+            CreatingProductModel(modelBuilder);
         }
 
         /// <summary>
@@ -106,7 +108,7 @@ namespace SmartCarWashDemo.Services.DataBase
                        ?? throw new EntityNotFoundException();
             }
             catch (InvalidOperationException) {
-                Logger.Error($"В базе данных обнаружено более одного пользователя в идентификатором {id}");
+                Logger.Error($"В базе данных обнаружено более одного пользователя с идентификатором {id}");
                 throw;
             }
         }
