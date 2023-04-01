@@ -69,6 +69,7 @@ namespace SmartCarWashDemo.Services.DataBase
                 .HasMany(customer => customer.Sales)
                 .WithOne(customer => customer.Customer)
                 .HasForeignKey(sale => sale.Id)
+                .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired();
         }
 

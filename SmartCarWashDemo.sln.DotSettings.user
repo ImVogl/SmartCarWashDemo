@@ -9,5 +9,6 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b78cecf_002Da0b2_002D4624_002D89e9_002D7dc34c62aa5a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddNewUserTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D1340A36-D164-4F58-8B34-9A5AF2777038::net5.0::SmartCarWashDemoTests.CustomersDbTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D1340A36-D164-4F58-8B34-9A5AF2777038::net5.0::SmartCarWashDemoTests.ProductsDbTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using SmartCarWashDemo.Model.Exceptions;
 using SmartCarWashDemo.Services.DataBase;
@@ -10,17 +9,12 @@ namespace SmartCarWashDemoTests
     public class CustomersDbTests
     {
         private const string Name = "Test name";
-        private static readonly DbContextOptions Options = new DbContextOptionsBuilder<DataBaseContext>()
-            .UseInMemoryDatabase(databaseName: "smart_car_washing")
-            .EnableSensitiveDataLogging()
-            .Options;
-
         private ICustomersDataBase _context;
 
         [SetUp]
         public void SetUp()
         {
-            _context = new DataBaseContext(Options);
+            _context = new DataBaseContext(DbUtilities.Options);
             _context.ReInitDatabase();
         }
 
@@ -55,7 +49,7 @@ namespace SmartCarWashDemoTests
 
         [Test]
         [Description("Удаление покупателя.")]
-        public void RemoveCustomer()
+        public void RemoveCustomerTest()
         {
             const string secondName = "Second name";
             _context.AddCustomer(Name);
