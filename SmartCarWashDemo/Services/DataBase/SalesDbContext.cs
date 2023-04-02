@@ -18,10 +18,11 @@ namespace SmartCarWashDemo.Services.DataBase
         public DbSet<Sale> Sales { get; set; }
 
         /// <inheritdoc />
-        public void AddSale(SaleInfo info)
+        public long AddSale(SaleInfo info)
         {
-            Sales.Add(ConvertInfoToEntity(info));
+            var sale = Sales.Add(ConvertInfoToEntity(info));
             SaveChanges();
+            return sale.Entity.Id;
         }
 
         /// <inheritdoc />

@@ -1,12 +1,11 @@
-﻿using System;
-using JetBrains.Annotations;
-using System.Collections.Generic;
+﻿using JetBrains.Annotations;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SmartCarWashDemo.Model.Dto.Sales
 {
     /// <summary>
-    /// DTO со сведениями об акте продажи.
+    /// DTO с базовыми сведениями об акте продажи.
     /// </summary>
     public class SaleDto
     {
@@ -39,19 +38,5 @@ namespace SmartCarWashDemo.Model.Dto.Sales
         [CanBeNull]
         [JsonProperty("customer_id")]
         public long? CustomerId { get; set; }
-
-        /// <summary>
-        /// Получает или задает общую стоимость всей продукции.
-        /// </summary>
-        [CanBeNull]
-        [JsonProperty("amount")]
-        public float? TotalAmount { get; set; }
-
-        /// <summary>
-        /// Получает или задает день и время создания акта продажи.
-        /// </summary>
-        [CanBeNull]
-        [JsonProperty("sell_date_time")]
-        public DateTime? SellDateTime { get; set; }
     }
 }

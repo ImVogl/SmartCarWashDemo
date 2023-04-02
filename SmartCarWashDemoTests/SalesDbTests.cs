@@ -52,14 +52,12 @@ namespace SmartCarWashDemoTests
         public void UpdateSaleTest()
         {
             _info.TotalAmount = 100f;
-            _context.AddSale(_info);
+            var id = _context.AddSale(_info);
             Assert.That(_context.Sales.Count(), Is.EqualTo(1));
-            
-            var sale = _context.Sales.First();
-            Assert.That(sale.Id, Is.EqualTo(1));
+            Assert.That(id, Is.EqualTo(1));
 
             _info.TotalAmount = 50f;
-            _info.Id = _context.Sales.First().Id;
+            _info.Id = id;
             _context.UpdateSale(_info);
 
             var amount = _context.Sales.First().TotalAmount;
@@ -72,11 +70,9 @@ namespace SmartCarWashDemoTests
         public void RemoveSaleTest()
         {
             _info.TotalAmount = 100f;
-            _context.AddSale(_info);
-            var id = _context.Sales.First().Id;
+            var id = _context.AddSale(_info);
 
             _info.TotalAmount = 50f;
-            _info.Id = _context.Sales.First().Id;
             _context.AddSale(_info);
 
             Assert.That(_context.Sales.Count(), Is.EqualTo(2));
@@ -94,13 +90,13 @@ namespace SmartCarWashDemoTests
         public void GetSaleTest()
         {
             _info.TotalAmount = 100f;
-            _context.AddSale(_info);
+            var firstId = _context.AddSale(_info);
 
             _info.TotalAmount = 50f;
-            _context.AddSale(_info);
+            var secondId = _context.AddSale(_info);
 
-            var first = _context.Sales.Single(sale => sale.TotalAmount > 75f);
-            var second = _context.Sales.Single(sale => sale.TotalAmount < 75f);
+            var first = _context.Sales.Single(sale => sale.Id == firstId);
+            var second = _context.Sales.Single(sale => sale.Id == secondId);
 
             var firstAmount = _context.GetSale(first.Id).TotalAmount;
             Assert.That(firstAmount, Is.GreaterThan(99f));

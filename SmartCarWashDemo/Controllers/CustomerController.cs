@@ -92,7 +92,7 @@ namespace SmartCarWashDemo.Controllers
             }
 
             try {
-                _db.UpdateCustomer(dto.Id, dto.Name);
+                _db.UpdateCustomer(dto.Id, dto.Name, dto.SaleIds);
                 return Ok();
             }
             catch (CustomerEntityNotFoundException) {

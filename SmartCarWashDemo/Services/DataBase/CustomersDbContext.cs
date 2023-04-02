@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using NLog;
@@ -32,10 +33,21 @@ namespace SmartCarWashDemo.Services.DataBase
         }
 
         /// <inheritdoc />
-        public void UpdateCustomer(long id, string name)
+        public void UpdateCustomer(long id, string name, IEnumerable<long> saleIds)
         {
             var customer = GetCustomerInternal(id);
             customer.Name = name;
+            customer.Sales.Clear();
+            customer.Sales = Sales.ToList().Where(sale => saleIds.Contains(sale.Id)).ToList();
+
+            SaveChanges();
+        }
+
+        /// <inheritdoc />
+        public void AddSale(long id, long saleId)
+        {
+            var customer = GetCustomerInternal(id);
+            customer.Sales.Add(GetSaleInternal(saleId));
 
             SaveChanges();
         }

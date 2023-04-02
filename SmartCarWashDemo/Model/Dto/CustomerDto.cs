@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace SmartCarWashDemo.Model.Dto
 {
@@ -8,6 +9,13 @@ namespace SmartCarWashDemo.Model.Dto
     /// </summary>
     public class CustomerDto : BaseDto
     {
+        /// <summary>
+        /// Получает или задает коллекцию идентификаторов актов продаж.
+        /// </summary>
+        [JsonRequired]
+        [JsonProperty("sale_ids")]
+        public ICollection<long> SaleIds { get; set; }
+
         /// <summary>
         /// Получает или задает день и время, когда пользователь был зарегистрирован.
         /// </summary>

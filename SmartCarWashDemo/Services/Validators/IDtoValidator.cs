@@ -31,6 +31,13 @@ namespace SmartCarWashDemo.Services.Validators
         bool Validate([NotNull] SalesPointDto dto);
 
         /// <summary>
+        /// Проверка значение полей <see cref="FullSaleDto"/>.
+        /// </summary>
+        /// <param name="dto"><see cref="FullSaleDto"/>.</param>
+        /// <returns>Значение, показывающее, что сведения корректны.</returns>
+        bool Validate([NotNull] FullSaleDto dto);
+
+        /// <summary>
         /// Проверка значение полей <see cref="SaleDto"/>.
         /// </summary>
         /// <param name="dto"><see cref="SaleDto"/>.</param>

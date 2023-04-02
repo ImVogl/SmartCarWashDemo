@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\Dto\Sales\" />
     <Folder Include="Services\Validators\" />
   </ItemGroup>
 

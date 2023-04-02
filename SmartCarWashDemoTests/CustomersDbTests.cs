@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
+using SmartCarWashDemo.Model;
 using SmartCarWashDemo.Model.Exceptions;
 using SmartCarWashDemo.Services.DataBase;
 using SmartCarWashDemo.Services.DataBase.Interfaces;
@@ -42,7 +45,7 @@ namespace SmartCarWashDemoTests
 
             var customer = _context.Customers.First();
             Assert.That(customer.Name, Is.EqualTo(Name));
-            _context.UpdateCustomer(customer.Id, newName);
+            _context.UpdateCustomer(customer.Id, newName, new List<long>());
             
             Assert.That(_context.Customers.First().Name, Is.EqualTo(newName));
         }
@@ -86,7 +89,38 @@ namespace SmartCarWashDemoTests
             Assert.That(_context.Customers, Is.Empty);
             Assert.Throws<CustomerEntityNotFoundException>(() => _context.RemoveCustomer(1));
             Assert.Throws<CustomerEntityNotFoundException>(() => _context.GetCustomer(1));
-            Assert.Throws<CustomerEntityNotFoundException>(() => _context.UpdateCustomer(1, string.Empty));
+            Assert.Throws<CustomerEntityNotFoundException>(() => _context.UpdateCustomer(1, string.Empty, new List<long>()));
+        }
+
+        [Test]
+        [Description("Добавление акта продаж пользователю")]
+        public void AddSaleTest()
+        {
+            _context.AddCustomer(Name);
+            Assert.That(_context.Customers.Count(), Is.EqualTo(1));
+
+            var customer = _context.Customers.First();
+            Assert.That(customer.Sales, Is.Empty);
+
+            Assert.Throws<SaleEntityNotFoundException>(() => _context.AddSale(customer.Id, 1));
+            var saleContext = (ISalesDataBase)_context;
+            var salesPointContext = (ISalesPointsDataBase)saleContext;
+
+            salesPointContext.AddPoint("Point", new Dictionary<long, int>());
+            var saleId = saleContext.AddSale(new SaleInfo
+            {
+                SalesData = new List<SaleDataInfo>(),
+                Date = DateTime.Now,
+                SalesPointId = salesPointContext.SalesPoints.First().Id,
+                Time = TimeSpan.FromHours(10),
+                TotalAmount = 0f
+            });
+            
+            _context.AddSale(customer.Id, saleId);
+            customer = _context.Customers.First();
+
+            Assert.That(customer.Sales.Count, Is.EqualTo(1));
+            Assert.That(customer.Sales.First().Id, Is.EqualTo(saleId));
         }
     }
 }

@@ -51,6 +51,39 @@ namespace SmartCarWashDemoTests
                 {
                     Id = 10,
                     SalesData = null,
+                    CustomerId = null,
+                    SalesPointId = 10
+                }), Is.False);
+
+            Assert.That(
+                DtoValidator.Validate(new SaleDto
+                {
+                    Id = 10,
+                    SalesData = new List<SaleDataDto>(),
+                    CustomerId = null,
+                    SalesPointId = -10,
+                }), Is.False);
+
+            Assert.That(
+                DtoValidator.Validate(new SaleDto
+                {
+                    Id = 10,
+                    SalesData = new List<SaleDataDto>(),
+                    CustomerId = null,
+                    SalesPointId = 10
+                }), Is.True);
+        }
+
+        [Test]
+        [Description("ѕроход всех кейсов дл€ полных DTO актов продаж.")]
+        public void FullSaleDtoValidationTest()
+        {
+            Assert.That(DtoValidator.Validate((FullSaleDto)null), Is.False);
+            Assert.That(
+                DtoValidator.Validate(new FullSaleDto
+                {
+                    Id = 10,
+                    SalesData = null,
                     TotalAmount = null,
                     CustomerId = null,
                     SalesPointId = 10,
@@ -58,7 +91,7 @@ namespace SmartCarWashDemoTests
                 }), Is.False);
 
             Assert.That(
-                DtoValidator.Validate(new SaleDto
+                DtoValidator.Validate(new FullSaleDto
                 {
                     Id = 10,
                     SalesData = new List<SaleDataDto>(),
@@ -69,7 +102,7 @@ namespace SmartCarWashDemoTests
                 }), Is.False);
 
             Assert.That(
-                DtoValidator.Validate(new SaleDto
+                DtoValidator.Validate(new FullSaleDto
                 {
                     Id = 10,
                     SalesData = new List<SaleDataDto>(),

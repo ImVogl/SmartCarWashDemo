@@ -19,9 +19,10 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// Добавление новой точки продажи в базу данных.
         /// </summary>
         /// <param name="entity"><see cref="Sale"/>.</param>
+        /// <returns>Идентификатор добавленной сущности.</returns>
         /// <exception cref="CustomerEntityNotFoundException"><see cref="CustomerEntityNotFoundException"/>.</exception>
         /// <exception cref="SalesPointEntityNotFoundException"><see cref="SalesPointEntityNotFoundException"/>.</exception>
-        void AddSale(SaleInfo entity);
+        long AddSale(SaleInfo entity);
 
         /// <summary>
         /// Обновление сведений о точке продажи в базе данных.

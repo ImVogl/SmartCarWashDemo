@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using SmartCarWashDemo.Model.DataBase;
 using SmartCarWashDemo.Model.Exceptions;
 
@@ -25,8 +26,18 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
         /// <param name="name">Имя покупателя.</param>
+        /// <param name="saleIds">Коллекция идентификаторов актов продажи.</param>
         /// <exception cref="CustomerEntityNotFoundException"><see cref="CustomerEntityNotFoundException"/>.</exception>
-        void UpdateCustomer(long id, string name);
+        void UpdateCustomer(long id, string name, IEnumerable<long> saleIds);
+
+        /// <summary>
+        /// Добавляет акт продажи, относящийся к данному пользователю.
+        /// </summary>
+        /// <param name="id">Идентификатор пользователя.</param>
+        /// <param name="saleId">Идентификатор акта продажи.</param>
+        /// <exception cref="CustomerEntityNotFoundException"><see cref="CustomerEntityNotFoundException"/>.</exception>
+        /// <exception cref="SaleEntityNotFoundException"><see cref="SaleEntityNotFoundException"/>.</exception>
+        void AddSale(long id, long saleId);
 
         /// <summary>
         /// Удаление из базы данных покупателя.
