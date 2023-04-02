@@ -19,7 +19,8 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// Добавление в базу данных нового покупателя.
         /// </summary>
         /// <param name="name">Имя покупателя.</param>
-        void AddCustomer(string name);
+        /// <returns>Идентификатор нового покупателя.</returns>
+        long AddCustomer(string name);
 
         /// <summary>
         /// Обновление сведений о покупателе.

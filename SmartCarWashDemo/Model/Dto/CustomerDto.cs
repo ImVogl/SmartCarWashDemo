@@ -19,8 +19,7 @@ namespace SmartCarWashDemo.Model.Dto
         /// <summary>
         /// Получает или задает день и время, когда пользователь был зарегистрирован.
         /// </summary>
-        [JsonRequired]
         [JsonProperty("registration")]
-        public DateTime RegistrationDateTime { get; set; }
+        public DateTime? RegistrationDateTime { get; set; }
     }
 }

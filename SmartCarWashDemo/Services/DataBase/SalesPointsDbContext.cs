@@ -18,7 +18,7 @@ namespace SmartCarWashDemo.Services.DataBase
         public DbSet<SalesPoint> SalesPoints { get; set; }
 
         /// <inheritdoc />
-        public void AddPoint(string name, Dictionary<long, int> products)
+        public long AddPoint(string name, Dictionary<long, int> products)
         {
             var point = new SalesPoint 
             { 
@@ -26,9 +26,10 @@ namespace SmartCarWashDemo.Services.DataBase
                 ProvidedProducts = products.Select(pair => new ProvidedProduct { ProductId = pair.Key, ProductQuantity = pair.Value }).ToList()
             };
 
-            SalesPoints.Add(point);
+            var pointEntity = SalesPoints.Add(point);
 
             SaveChanges();
+            return pointEntity.Entity.Id;
         }
 
         /// <inheritdoc />

@@ -51,7 +51,7 @@ namespace SmartCarWashDemo.Controllers
         /// <response code="500">Неизвестная ошибка.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost("~/[controller]/add/{name}")]
+        [HttpPost("~/[controller]/add")]
         public IActionResult Add([FromBody] CustomerDto dto)
         {
             Logger.Debug($"Получен запрос на добавление нового покупателя с именем {dto.Name}");
@@ -85,14 +85,14 @@ namespace SmartCarWashDemo.Controllers
         public IActionResult Update([FromBody] CustomerDto dto)
         {
             Logger.Debug($"Получен запрос на обновление сведений о покупателе с идентификатором {dto.Id}");
-            if (!_validator.Validate(dto))
+            if (!_validator.Validate(dto) || dto.Id == null)
             {
                 LogBadDto(dto);
                 return BadRequest();
             }
 
             try {
-                _db.UpdateCustomer(dto.Id, dto.Name, dto.SaleIds);
+                _db.UpdateCustomer((long)dto.Id, dto.Name, dto.SaleIds);
                 return Ok();
             }
             catch (CustomerEntityNotFoundException) {

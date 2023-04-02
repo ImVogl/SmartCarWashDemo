@@ -84,7 +84,7 @@ namespace SmartCarWashDemo.Controllers
         [HttpPut("~/[controller]/update")]
         public IActionResult Update([FromBody] ProductDto dto)
         {
-            if (!_validator.Validate(dto))
+            if (!_validator.Validate(dto) || dto.Id == null)
             {
                 LogBadDto(dto);
                 return BadRequest();
@@ -92,7 +92,7 @@ namespace SmartCarWashDemo.Controllers
 
             Logger.Debug($"Получен запрос на обновление продукта с идентификатором {dto.Id}, именем {dto.Name} и со стоимостью {dto.Price:F} рублей");
             try {
-                _db.UpdateProduct(dto.Id, dto.Name, dto.Price);
+                _db.UpdateProduct((long)dto.Id, dto.Name, dto.Price);
                 return Ok();
             }
             catch (ProductEntityNotFoundException) {

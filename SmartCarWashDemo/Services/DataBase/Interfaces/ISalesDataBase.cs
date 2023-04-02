@@ -16,7 +16,7 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         DbSet<Sale> Sales { get; set; }
 
         /// <summary>
-        /// Добавление новой точки продажи в базу данных.
+        /// Добавление нового акта продажи в базу данных.
         /// </summary>
         /// <param name="entity"><see cref="Sale"/>.</param>
         /// <returns>Идентификатор добавленной сущности.</returns>
@@ -25,23 +25,23 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         long AddSale(SaleInfo entity);
 
         /// <summary>
-        /// Обновление сведений о точке продажи в базе данных.
+        /// Обновление сведений об акте продажи в базе данных.
         /// </summary>
         /// <param name="entity"><see cref="Sale"/>.</param>
         /// <exception cref="SaleEntityNotFoundException"><see cref="SaleEntityNotFoundException"/>.</exception>
         void UpdateSale(SaleInfo entity);
 
         /// <summary>
-        /// Удаляет точку продажи из базы данных.
+        /// Удаляет акт продажи из базы данных.
         /// </summary>
-        /// <param name="id">Идентификатор точки продажи.</param>
+        /// <param name="id">Идентификатор акта продажи.</param>
         /// <exception cref="SaleEntityNotFoundException"><see cref="SaleEntityNotFoundException"/>.</exception>
         void RemoveSale(long id);
 
         /// <summary>
-        /// Получает экземпляр точки продажи.
+        /// Получает экземпляр акт продажи.
         /// </summary>
-        /// <param name="id">Идентификатор точки продажи.</param>
+        /// <param name="id">Идентификатор акта продажи.</param>
         /// <returns><see cref="Sale"/>.</returns>
         /// <exception cref="SaleEntityNotFoundException"><see cref="SaleEntityNotFoundException"/>.</exception>
         Sale GetSale(long id);

@@ -20,7 +20,8 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// </summary>
         /// <param name="name">Имя точки.</param>
         /// <param name="products">Словарь с идентификаторами товаров (ключ словаря) на точке и числом товаров (значение словаря) на этой точке.</param>
-        void AddPoint(string name, Dictionary<long, int> products);
+        /// <returns>Идентификатор добавленной точки продажи.</returns>
+        long AddPoint(string name, Dictionary<long, int> products);
 
         /// <summary>
         /// Обновление сведений о точке продажи в базе данных.

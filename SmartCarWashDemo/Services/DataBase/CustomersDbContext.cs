@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using NLog;
@@ -26,10 +25,11 @@ namespace SmartCarWashDemo.Services.DataBase
         public DbSet<Customer> Customers { get; set; }
 
         /// <inheritdoc />
-        public void AddCustomer(string name)
+        public long AddCustomer(string name)
         {
-            Customers.Add(new Customer { Name = name, CreationDateTime = DateTime.Now, Sales = new List<Sale>() });
+            var customer = Customers.Add(new Customer { Name = name, CreationDateTime = DateTime.Now, Sales = new List<Sale>() });
             SaveChanges();
+            return customer.Entity.Id;
         }
 
         /// <inheritdoc />

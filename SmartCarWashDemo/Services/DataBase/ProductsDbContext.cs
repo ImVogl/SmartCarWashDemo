@@ -17,10 +17,12 @@ namespace SmartCarWashDemo.Services.DataBase
         public DbSet<Product> Products { get; set; }
 
         /// <inheritdoc />
-        public void AddProduct(string name, float price)
+        public long AddProduct(string name, float price)
         {
-            Products.Add(new Product { Name = name, Price = price });
+            var product = Products.Add(new Product { Name = name, Price = price });
             SaveChanges();
+
+            return product.Entity.Id;
         }
 
         /// <inheritdoc />

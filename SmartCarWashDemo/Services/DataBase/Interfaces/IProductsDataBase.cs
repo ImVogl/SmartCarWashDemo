@@ -19,7 +19,8 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// </summary>
         /// <param name="name">Имя продукта.</param>
         /// <param name="price">Стоимость продукта.</param>
-        void AddProduct(string name, float price);
+        /// <returns>Идентификатор добавленного товара.</returns>
+        long AddProduct(string name, float price);
 
         /// <summary>
         /// Обновление сведений о продукте.

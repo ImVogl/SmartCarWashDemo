@@ -59,6 +59,15 @@ namespace SmartCarWashDemo
             {
                 endpoints.MapControllers();
             });
+
+            using var serviceScope = app.ApplicationServices.CreateScope();
+            var tablesCreator = new CreateTables(
+                serviceScope.ServiceProvider.GetRequiredService<ICustomersDataBase>(),
+                serviceScope.ServiceProvider.GetRequiredService<IProductsDataBase>(),
+                serviceScope.ServiceProvider.GetRequiredService<ISalesDataBase>(),
+                serviceScope.ServiceProvider.GetRequiredService<ISalesPointsDataBase>());
+
+            tablesCreator.InitTables();
         }
 
         /// <summary>
