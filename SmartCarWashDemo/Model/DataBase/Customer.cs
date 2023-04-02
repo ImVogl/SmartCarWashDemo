@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using JetBrains.Annotations;
 using SmartCarWashDemo.Model.DataBase.Sales;
 
@@ -16,7 +15,6 @@ namespace SmartCarWashDemo.Model.DataBase
         /// <summary>
         /// Получает или задает имя пользователя.
         /// </summary>
-        [Required]
         [Column("name")]
         public string Name { get; set; }
 
@@ -30,7 +28,6 @@ namespace SmartCarWashDemo.Model.DataBase
         /// <summary>
         /// Получает или задает день и время, когда был создан пользователь.
         /// </summary>
-        [Required]
         [Column("registration_date_time")]
         public DateTime CreationDateTime { get; set; }
     }

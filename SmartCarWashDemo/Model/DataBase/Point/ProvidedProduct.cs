@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartCarWashDemo.Model.DataBase.Point
 {
@@ -10,16 +9,19 @@ namespace SmartCarWashDemo.Model.DataBase.Point
     public class ProvidedProduct : EntityBase
     {
         /// <summary>
+        /// Получает или задает <see cref="SalesPoint"/>.
+        /// </summary>
+        public SalesPoint Point { get; set; }
+
+        /// <summary>
         /// Получает или задает идентификатор продукта.
         /// </summary>
-        [Required]
         [Column("product_id")]
         public long ProductId { get; set; }
 
         /// <summary>
         /// Получает или задает число единиц продукции на точке продажи.
         /// </summary>
-        [Required]
         [Column("quantity")]
         public int ProductQuantity { get; set; }
     }

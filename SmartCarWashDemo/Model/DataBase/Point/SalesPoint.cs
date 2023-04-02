@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using JetBrains.Annotations;
+using SmartCarWashDemo.Model.DataBase.Sales;
 
 namespace SmartCarWashDemo.Model.DataBase.Point
 {
@@ -14,10 +14,15 @@ namespace SmartCarWashDemo.Model.DataBase.Point
         /// <summary>
         /// Получает или задает имя точки продажи.
         /// </summary>
-        [Required]
         [Column("name")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Получает или задает <see cref="Sale"/>.
+        /// </summary>
+        [NotNull]
+        public ICollection<Sale> Sales { get; set; } = null!;
+        
         /// <summary>
         /// Получает или задает коллекцию <see cref="ProvidedProduct"/>.
         /// </summary>

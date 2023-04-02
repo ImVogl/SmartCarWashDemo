@@ -20,11 +20,13 @@ namespace SmartCarWashDemo.Services.DataBase
         /// <inheritdoc />
         public void AddPoint(string name, Dictionary<long, int> products)
         {
-            SalesPoints.Add(new SalesPoint
-            {
+            var point = new SalesPoint 
+            { 
                 Name = name,
                 ProvidedProducts = products.Select(pair => new ProvidedProduct { ProductId = pair.Key, ProductQuantity = pair.Value }).ToList()
-            });
+            };
+
+            SalesPoints.Add(point);
 
             SaveChanges();
         }
@@ -67,8 +69,18 @@ namespace SmartCarWashDemo.Services.DataBase
             
             modelBuilder.Entity<SalesPoint>().HasIndex(point => point.Id).IsUnique();
             modelBuilder.Entity<SalesPoint>().Property(point => point.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<SalesPoint>()
+                .HasMany(point => point.Sales)
+                .WithOne(sale => sale.SalesPoint)
+                .HasForeignKey(sale => sale.SalesPointId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
 
-            modelBuilder.Entity<SalesPoint>().HasMany(point => point.ProvidedProducts).WithOne().IsRequired();
+            modelBuilder.Entity<SalesPoint>()
+                .HasMany(point => point.ProvidedProducts)
+                .WithOne(product => product.Point)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
         }
 
         /// <summary>
