@@ -84,9 +84,9 @@ namespace SmartCarWashDemoTests
         public void ThrowNotFoundExceptionTest()
         {
             Assert.That(_context.Customers, Is.Empty);
-            Assert.Throws<EntityNotFoundException>(() => _context.RemoveCustomer(1));
-            Assert.Throws<EntityNotFoundException>(() => _context.GetCustomer(1));
-            Assert.Throws<EntityNotFoundException>(() => _context.UpdateCustomer(1, string.Empty));
+            Assert.Throws<CustomerEntityNotFoundException>(() => _context.RemoveCustomer(1));
+            Assert.Throws<CustomerEntityNotFoundException>(() => _context.GetCustomer(1));
+            Assert.Throws<CustomerEntityNotFoundException>(() => _context.UpdateCustomer(1, string.Empty));
         }
     }
 }

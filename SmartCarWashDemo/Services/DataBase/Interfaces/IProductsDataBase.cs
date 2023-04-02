@@ -27,14 +27,14 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// <param name="id">Идентификатор обновляемого продукта.</param>
         /// <param name="name">Имя обновляемого продукта.</param>
         /// <param name="price">Цена обновляемого продукта.</param>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для продукта.</exception>
+        /// <exception cref="ProductEntityNotFoundException"><see cref="ProductEntityNotFoundException"/>.</exception>
         void UpdateProduct(long id, string name, float price);
 
         /// <summary>
         /// Удаляет продукт из базы данных.
         /// </summary>
         /// <param name="id">Идентификатор продукта.</param>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для продукта.</exception>
+        /// <exception cref="ProductEntityNotFoundException"><see cref="ProductEntityNotFoundException"/>.</exception>
         void RemoveProduct(long id);
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// </summary>
         /// <param name="id">Идентификатор продукта.</param>
         /// <returns><see cref="Product"/>.</returns>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для продукта.</exception>
+        /// <exception cref="ProductEntityNotFoundException"><see cref="ProductEntityNotFoundException"/>.</exception>
         Product GetProduct(long id);
     }
 }

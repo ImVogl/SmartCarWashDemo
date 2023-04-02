@@ -85,7 +85,7 @@ namespace SmartCarWashDemo.Services.DataBase
                 return Customers
                            .Include(customer => customer.Sales)
                            .SingleOrDefault(customer => customer.Id == id)
-                       ?? throw new EntityNotFoundException();
+                       ?? throw new CustomerEntityNotFoundException();
             }
             catch (InvalidOperationException) {
                 Logger.Error($"В базе данных обнаружено более одного пользователя с идентификатором {id}");

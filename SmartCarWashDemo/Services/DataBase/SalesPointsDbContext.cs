@@ -84,7 +84,7 @@ namespace SmartCarWashDemo.Services.DataBase
                 return SalesPoints
                            .Include(point => point.ProvidedProducts)
                            .SingleOrDefault(sale => sale.Id == id)
-                       ?? throw new EntityNotFoundException();
+                       ?? throw new SalesPointEntityNotFoundException();
             }
             catch (InvalidOperationException)
             {

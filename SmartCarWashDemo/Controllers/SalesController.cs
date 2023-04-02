@@ -68,6 +68,14 @@ namespace SmartCarWashDemo.Controllers
                 _db.AddSale(ConvertDtoToInfo(dto));
                 return Ok();
             }
+            catch (CustomerEntityNotFoundException) {
+                Logger.Warn($"не удалось найти пользователя с идентификатором {dto.CustomerId}");
+                return BadRequest();
+            }
+            catch (SalesPointEntityNotFoundException) {
+                Logger.Warn($"не удалось найти точку продажи с идентификатором {dto.SalesPointId}");
+                return BadRequest();
+            }
             catch {
                 Logger.Error("Не удалось добавить новый акт продажи");
                 return CommonUtils.InternalServerError();
@@ -98,7 +106,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.UpdateSale(ConvertDtoToInfo(dto));
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (SaleEntityNotFoundException) {
                 Logger.Warn($"Не удалось обновить сведения об акте продажи с идентификатором {dto.Id}, так как акта продажи с таким идентификатором не существует.");
                 return BadRequest();
             }
@@ -124,7 +132,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.RemoveSale(id);
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (SaleEntityNotFoundException) {
                 Logger.Warn($"Не удалось удалить акт продажи с идентификатором {id}, так как акта продажи с таким идентификатором не существует.");
                 return BadRequest();
             }
@@ -153,7 +161,7 @@ namespace SmartCarWashDemo.Controllers
                 var sale = _db.GetSale(id);
                 return Ok(ConvertEntityToDto(sale));
             }
-            catch (EntityNotFoundException) {
+            catch (SaleEntityNotFoundException) {
                 Logger.Warn($"Не удалось получить акт продажи с идентификатором {id}, так как акта продажи с таким идентификатором не существует.");
                 return BadRequest();
             }

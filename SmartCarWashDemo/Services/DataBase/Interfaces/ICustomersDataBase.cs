@@ -25,14 +25,14 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
         /// <param name="name">Имя покупателя.</param>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
+        /// <exception cref="CustomerEntityNotFoundException"><see cref="CustomerEntityNotFoundException"/>.</exception>
         void UpdateCustomer(long id, string name);
 
         /// <summary>
         /// Удаление из базы данных покупателя.
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
+        /// <exception cref="CustomerEntityNotFoundException"><see cref="CustomerEntityNotFoundException"/>.</exception>
         void RemoveCustomer(long id);
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// </summary>
         /// <param name="id">Идентификатор покупателя.</param>
         /// <returns><see cref="Customer"/>.</returns>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для покупателя.</exception>
+        /// <exception cref="CustomerEntityNotFoundException"><see cref="CustomerEntityNotFoundException"/>.</exception>
         Customer GetCustomer(long id);
     }
 }

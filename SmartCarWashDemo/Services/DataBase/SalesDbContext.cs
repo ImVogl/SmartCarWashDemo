@@ -92,7 +92,7 @@ namespace SmartCarWashDemo.Services.DataBase
                     .Include(sale => sale.Customer)
                     .Include(sale => sale.SalesPoint)
                     .SingleOrDefault(sale => sale.Id == id)
-                       ?? throw new EntityNotFoundException();
+                       ?? throw new SaleEntityNotFoundException();
             }
             catch (InvalidOperationException) {
                 Logger.Error($"В базе данных обнаружено более одного акта продажи с идентификатором {id}");

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using SmartCarWashDemo.Model.Dto;
@@ -96,7 +95,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.UpdateCustomer(dto.Id, dto.Name);
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (CustomerEntityNotFoundException) {
                 Logger.Warn($"Не удалось найти пользователя с идентификатором {dto.Id}");
                 return BadRequest();
             }
@@ -124,7 +123,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.RemoveCustomer(id);
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (CustomerEntityNotFoundException) {
                 Logger.Warn($"Не удалось найти пользователя с идентификатором {id}");
                 return BadRequest();
             }
@@ -159,7 +158,7 @@ namespace SmartCarWashDemo.Controllers
                     RegistrationDateTime = customer.CreationDateTime
                 });
             }
-            catch (EntityNotFoundException) {
+            catch (CustomerEntityNotFoundException) {
                 Logger.Warn($"Не удалось найти пользователя с идентификатором {id}");
                 return BadRequest();
             }

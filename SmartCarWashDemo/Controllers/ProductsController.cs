@@ -95,7 +95,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.UpdateProduct(dto.Id, dto.Name, dto.Price);
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (ProductEntityNotFoundException) {
                 Logger.Warn($"Не удалось обновить сведения о продукте с идентификатором {dto.Id}, так как продукт с таким идентификатором не существует.");
                 return BadRequest();
             }
@@ -123,7 +123,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.RemoveProduct(id);
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (ProductEntityNotFoundException) {
                 Logger.Warn($"Не удалось удалить продукт с идентификатором {id}, так как продукт с таким идентификатором не существует.");
                 return BadRequest();
             }
@@ -151,7 +151,7 @@ namespace SmartCarWashDemo.Controllers
                 var product = _db.GetProduct(id);
                 return Ok(new ProductDto { Id = product.Id, Name = product.Name, Price = product.Price });
             }
-            catch (EntityNotFoundException) {
+            catch (ProductEntityNotFoundException) {
                 Logger.Warn($"Не удалось получить продукт с идентификатором {id}, так как продукт с таким идентификатором не существует.");
                 return BadRequest();
             }

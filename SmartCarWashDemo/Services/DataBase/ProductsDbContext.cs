@@ -68,7 +68,7 @@ namespace SmartCarWashDemo.Services.DataBase
         private Product GetProductInternal(long id)
         {
             try {
-                return Products.SingleOrDefault(customer => customer.Id == id) ?? throw new EntityNotFoundException();
+                return Products.SingleOrDefault(customer => customer.Id == id) ?? throw new ProductEntityNotFoundException();
             }
             catch (InvalidOperationException) {
                 Logger.Error($"В базе данных обнаружено более одного продукта с идентификатором {id}");

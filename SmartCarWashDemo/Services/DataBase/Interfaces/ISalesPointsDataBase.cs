@@ -28,14 +28,14 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// <param name="id">Идентификатор обновляемой точки.</param>
         /// <param name="name">Имя обновляемой точки.</param>
         /// <param name="products">Словарь с идентификаторами товаров (ключ словаря) на точке и числом товаров (значение словаря) на этой точке.</param>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для точки продажи.</exception>
+        /// <exception cref="SalesPointEntityNotFoundException"><see cref="SalesPointEntityNotFoundException"/>.</exception>
         void UpdatePoint(long id, string name, Dictionary<long, int> products);
 
         /// <summary>
         /// Удаляет точку продажи из базы данных.
         /// </summary>
         /// <param name="id">Идентификатор точки продажи.</param>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для точки продажи.</exception>
+        /// <exception cref="SalesPointEntityNotFoundException"><see cref="SalesPointEntityNotFoundException"/>.</exception>
         void RemovePoint(long id);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace SmartCarWashDemo.Services.DataBase.Interfaces
         /// </summary>
         /// <param name="id">Идентификатор точки продажи.</param>
         /// <returns><see cref="SalesPoint"/>.</returns>
-        /// <exception cref="EntityNotFoundException"><see cref="EntityNotFoundException"/> для точки продажи.</exception>
+        /// <exception cref="SalesPointEntityNotFoundException"><see cref="SalesPointEntityNotFoundException"/>.</exception>
         SalesPoint GetPoint(long id);
     }
 }

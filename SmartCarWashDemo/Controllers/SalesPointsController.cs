@@ -92,7 +92,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.UpdatePoint(dto.Id, dto.Name, dto.ProvidedProducts);
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (SalesPointEntityNotFoundException) {
                 Logger.Warn($"Не удалось обновить сведения о точке продажи с идентификатором {dto.Id}, так как точка продажи с таким идентификатором не существует.");
                 return BadRequest();
             }
@@ -118,7 +118,7 @@ namespace SmartCarWashDemo.Controllers
                 _db.RemovePoint(id);
                 return Ok();
             }
-            catch (EntityNotFoundException) {
+            catch (SalesPointEntityNotFoundException) {
                 Logger.Warn($"Не удалось удалить точку продажи с идентификатором {id}, так как точка продажи с таким идентификатором не существует.");
                 return BadRequest();
             }
@@ -150,7 +150,7 @@ namespace SmartCarWashDemo.Controllers
                     ProvidedProducts = point.ProvidedProducts.ToDictionary(product => product.ProductId, product => product.ProductQuantity)
                 });
             }
-            catch (EntityNotFoundException) {
+            catch (SalesPointEntityNotFoundException) {
                 Logger.Warn($"Не удалось получить точку продажи с идентификатором {id}, так как точка продажи с таким идентификатором не существует.");
                 return BadRequest();
             }
