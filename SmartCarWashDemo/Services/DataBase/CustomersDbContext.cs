@@ -67,10 +67,10 @@ namespace SmartCarWashDemo.Services.DataBase
             modelBuilder.Entity<Customer>().Property(customer => customer.CreationDateTime).IsRequired();
             modelBuilder.Entity<Customer>()
                 .HasMany(customer => customer.Sales)
-                .WithOne(customer => customer.Customer)
-                .HasForeignKey(sale => sale.Id)
+                .WithOne(sale => sale.Customer)
+                .HasForeignKey(sale => sale.CustomerId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired();
+                .IsRequired(false);
         }
 
         /// <summary>

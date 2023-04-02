@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace SmartCarWashDemo.Model.DataBase.Sales
 {
@@ -9,23 +8,31 @@ namespace SmartCarWashDemo.Model.DataBase.Sales
     public class SaleData : EntityBase
     {
         /// <summary>
+        /// 
+        /// </summary>
+        [Column("sale_id")]
+        public long SaleId { get; set; }
+
+        /// <summary>
+        /// Получает или задает родительский <see cref="Sales.Sale"/>.
+        /// </summary>
+        public Sale Sale { get; set; }
+
+        /// <summary>
         /// Получает или задает идентификатор проданного продукта.
         /// </summary>
-        [Required]
-        [Column("id")]
+        [Column("product_id")]
         public long ProductId { get; set; }
 
         /// <summary>
         /// Получает или задает число проданных товаров.
         /// </summary>
-        [Required]
         [Column("quantity")]
         public int ProductQuantity { get; set; }
 
         /// <summary>
         /// Получает или задает общую стоимость проданного товара.
         /// </summary>
-        [Required]
         [Column("amount")]
         public float ProductAmount { get; set; }
     }

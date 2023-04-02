@@ -6,8 +6,6 @@ using System;
 using JetBrains.Annotations;
 using SmartCarWashDemo.Model;
 using SmartCarWashDemo.Services.DataBase.Interfaces;
-using SmartCarWashDemo.Model.DataBase.Point;
-using SmartCarWashDemo.Model.DataBase;
 
 namespace SmartCarWashDemo.Services.DataBase
 {
@@ -70,12 +68,11 @@ namespace SmartCarWashDemo.Services.DataBase
             modelBuilder.Entity<Sale>().Property(sale => sale.Date).IsRequired();
             modelBuilder.Entity<Sale>().Property(sale => sale.Time).IsRequired();
             modelBuilder.Entity<Sale>().Property(sale => sale.TotalAmount).IsRequired();
-            modelBuilder.Entity<Sale>().HasMany(sale => sale.SalesData).WithOne().IsRequired();
+            modelBuilder.Entity<Sale>().Property(sale => sale.CustomerId).IsRequired(false);
             modelBuilder.Entity<Sale>()
-                .HasOne(sale => sale.SalesPoint)
-                .WithOne()
-                .HasForeignKey<SalesPoint>(point => point.Id)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasMany(sale => sale.SalesData)
+                .WithOne(data => data.Sale)
+                .HasForeignKey(data => data.SaleId)
                 .IsRequired();
         }
 

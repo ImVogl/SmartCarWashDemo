@@ -73,7 +73,7 @@ namespace SmartCarWashDemo
                 .Options;
 
             services.AddScoped<IDtoValidator, DtoValidator>();
-            services.AddSingleton(_ => new DataBaseContext(option));
+            services.AddScoped(_ => new DataBaseContext(option));
             services.AddScoped<ICustomersDataBase>(provider => provider.GetRequiredService<DataBaseContext>());
             services.AddScoped<IProductsDataBase>(provider => provider.GetRequiredService<DataBaseContext>());
             services.AddScoped<ISalesDataBase>(provider => provider.GetRequiredService<DataBaseContext>());

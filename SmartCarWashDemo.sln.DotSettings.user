@@ -10,5 +10,8 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D1340A36-D164-4F58-8B34-9A5AF2777038::net5.0::SmartCarWashDemoTests.CustomersDbTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D1340A36-D164-4F58-8B34-9A5AF2777038::net5.0::SmartCarWashDemoTests.ProductsDbTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D1340A36-D164-4F58-8B34-9A5AF2777038::net5.0::SmartCarWashDemoTests.SalesPointDbTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D1340A36-D164-4F58-8B34-9A5AF2777038::net5.0::SmartCarWashDemoTests.SalesDbTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D1340A36-D164-4F58-8B34-9A5AF2777038::net5.0::SmartCarWashDemoTests.DtoValidatorTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
