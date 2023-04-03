@@ -31,16 +31,16 @@ namespace SmartCarWashDemo.Services.Validators
         bool Validate([NotNull] SalesPointDto dto);
 
         /// <summary>
-        /// Проверка значение полей <see cref="FullSaleDto"/>.
+        /// Проверка значение полей <see cref="ResultSaleDto"/>.
         /// </summary>
-        /// <param name="dto"><see cref="FullSaleDto"/>.</param>
+        /// <param name="dto"><see cref="ResultSaleDto"/>.</param>
         /// <returns>Значение, показывающее, что сведения корректны.</returns>
-        bool Validate([NotNull] FullSaleDto dto);
+        bool Validate([NotNull] ResultSaleDto dto);
 
         /// <summary>
-        /// Проверка значение полей <see cref="SaleDto"/>.
+        /// Проверка значение полей <see cref="SaleBaseDto"/>.
         /// </summary>
-        /// <param name="dto"><see cref="SaleDto"/>.</param>
+        /// <param name="dto"><see cref="SaleBaseDto"/>.</param>
         /// <returns>Значение, показывающее, что сведения корректны.</returns>
         bool Validate([NotNull] SaleDto dto);
     }

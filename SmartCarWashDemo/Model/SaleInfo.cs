@@ -21,7 +21,7 @@ namespace SmartCarWashDemo.Model
         public long SalesPointId { get; set; }
 
         /// <summary>
-        /// Получает или задает коллекцию <see cref="SaleDataDto"/>.
+        /// Получает или задает коллекцию <see cref="ResultSaleDataDto"/>.
         /// </summary>
         [NotNull]
         [ItemNotNull]
@@ -32,13 +32,7 @@ namespace SmartCarWashDemo.Model
         /// </summary>
         [CanBeNull]
         public long? CustomerId { get; set; }
-
-        /// <summary>
-        /// Получает или задает общую стоимость всей продукции.
-        /// </summary>
-        [CanBeNull]
-        public float TotalAmount { get; set; }
-
+        
         /// <summary>
         /// Получает или задает день продажи (Увы, но в .NET 5.0 нет DateOnly).
         /// </summary>

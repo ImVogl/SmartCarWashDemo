@@ -11,6 +11,8 @@ namespace SmartCarWashDemoTests
 {
     public class SalesDbTests
     {
+        private static readonly DateTime FirstDate = DateTime.Now;
+        private static readonly DateTime SecondDate = DateTime.Now.AddDays(1);
         private ISalesDataBase _context;
         private SaleInfo _info;
 
@@ -29,8 +31,7 @@ namespace SmartCarWashDemoTests
                 CustomerId = null,
                 Date = DateTime.Now,
                 SalesData = new List<SaleDataInfo>(),
-                Time = TimeSpan.FromHours(13),
-                TotalAmount = 0f
+                Time = TimeSpan.FromHours(13)
             };
         }
 
@@ -51,28 +52,27 @@ namespace SmartCarWashDemoTests
         [Description("Обновление сведений о существующем акте продажи.")]
         public void UpdateSaleTest()
         {
-            _info.TotalAmount = 100f;
+            _info.Date = FirstDate;
             var id = _context.AddSale(_info);
             Assert.That(_context.Sales.Count(), Is.EqualTo(1));
             Assert.That(id, Is.EqualTo(1));
 
-            _info.TotalAmount = 50f;
+            _info.Date = SecondDate;
             _info.Id = id;
             _context.UpdateSale(_info);
 
-            var amount = _context.Sales.First().TotalAmount;
-            Assert.That(amount, Is.GreaterThan(49f));
-            Assert.That(amount, Is.LessThan(51f));
+            var date = _context.Sales.Single(sale => sale.Id == id).Date;
+            Assert.That(date, Is.EqualTo(SecondDate));
         }
 
         [Test]
         [Description("Удаление акта продажи.")]
         public void RemoveSaleTest()
         {
-            _info.TotalAmount = 100f;
+            _info.Date = FirstDate;
             var id = _context.AddSale(_info);
 
-            _info.TotalAmount = 50f;
+            _info.Date = SecondDate;
             _context.AddSale(_info);
 
             Assert.That(_context.Sales.Count(), Is.EqualTo(2));
@@ -80,31 +80,28 @@ namespace SmartCarWashDemoTests
             _context.RemoveSale(id);
             Assert.That(_context.Sales.Count(), Is.EqualTo(1));
 
-            var amount = _context.Sales.First().TotalAmount;
-            Assert.That(amount, Is.GreaterThan(49f));
-            Assert.That(amount, Is.LessThan(51f));
+            var date = _context.Sales.First().Date;
+            Assert.That(date, Is.EqualTo(SecondDate));
         }
 
         [Test]
         [Description("Получение акта продажи с заданным идентификатором")]
         public void GetSaleTest()
         {
-            _info.TotalAmount = 100f;
+            _info.Date = FirstDate;
             var firstId = _context.AddSale(_info);
 
-            _info.TotalAmount = 50f;
+            _info.Date = SecondDate;
             var secondId = _context.AddSale(_info);
 
             var first = _context.Sales.Single(sale => sale.Id == firstId);
             var second = _context.Sales.Single(sale => sale.Id == secondId);
 
-            var firstAmount = _context.GetSale(first.Id).TotalAmount;
-            Assert.That(firstAmount, Is.GreaterThan(99f));
-            Assert.That(firstAmount, Is.LessThan(101f));
+            var firstDate = _context.GetSale(first.Id).Date;
+            Assert.That(firstDate, Is.EqualTo(FirstDate));
 
-            var secondAmount = _context.GetSale(second.Id).TotalAmount;
-            Assert.That(secondAmount, Is.GreaterThan(49f));
-            Assert.That(secondAmount, Is.LessThan(51f));
+            var secondDate = _context.GetSale(second.Id).Date;
+            Assert.That(secondDate, Is.EqualTo(SecondDate));
         }
 
         [Test]

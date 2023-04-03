@@ -12,12 +12,5 @@ namespace SmartCarWashDemo.Model.Dto
         /// </summary>
         [JsonProperty("id")]
         public long? Id { get; set; }
-
-        /// <summary>
-        /// Получает или задает имя сущности.
-        /// </summary>
-        [JsonRequired]
-        [JsonProperty("name")]
-        public string Name { get; set; }
     }
 }

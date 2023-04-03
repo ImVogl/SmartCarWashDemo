@@ -14,10 +14,5 @@
         /// Получает или задает число проданных товаров.
         /// </summary>
         public int ProductQuantity { get; set; }
-
-        /// <summary>
-        /// Получает или задает общую стоимость проданного товара.
-        /// </summary>
-        public float ProductAmount { get; set; }
     }
 }

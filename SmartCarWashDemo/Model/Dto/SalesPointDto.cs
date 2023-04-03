@@ -6,7 +6,7 @@ namespace SmartCarWashDemo.Model.Dto
     /// <summary>
     /// DTO со сведениями о точке продажи.
     /// </summary>
-    public class SalesPointDto : BaseDto
+    public class SalesPointDto : NamedBaseDto
     {
         /// <summary>
         /// Получает или задает словарь, где ключ - идентификатор продукта, а значение - число товаров доступных к продаже.

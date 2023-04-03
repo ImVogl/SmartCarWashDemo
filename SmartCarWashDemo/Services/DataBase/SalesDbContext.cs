@@ -89,6 +89,7 @@ namespace SmartCarWashDemo.Services.DataBase
                 return Sales
                     .Include(sale => sale.Customer)
                     .Include(sale => sale.SalesPoint)
+                    .Include(sale => sale.SalesData)
                     .SingleOrDefault(sale => sale.Id == id)
                        ?? throw new SaleEntityNotFoundException();
             }
@@ -105,16 +106,17 @@ namespace SmartCarWashDemo.Services.DataBase
         /// <returns><see cref="Sale"/>.</returns>
         private Sale ConvertInfoToEntity(SaleInfo info)
         {
+            var prices = info.SalesData.Select(data => GetProduct(data.ProductId)).ToDictionary(item => item.Id, item => item.Price);
             return new Sale
             {
                 Customer = info.CustomerId != null ? GetCustomerInternal((long)info.CustomerId) : null,
                 Date = info.Date,
                 SalesPoint = GetPointInternal(info.SalesPointId),
                 Time = info.Time,
-                TotalAmount = info.TotalAmount,
+                TotalAmount = info.SalesData.Aggregate(0f, (sum, data) => sum + prices[data.ProductId] * data.ProductQuantity),
                 SalesData = info.SalesData.Select(data => new SaleData
                 {
-                    ProductAmount = data.ProductAmount,
+                    ProductAmount = prices[data.ProductId] * data.ProductQuantity,
                     ProductId = data.ProductId,
                     ProductQuantity = data.ProductQuantity
                 }).ToList()

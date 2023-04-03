@@ -5,7 +5,7 @@ namespace SmartCarWashDemo.Model.Dto
     /// <summary>
     /// DTO обновлений сведений о продукте.
     /// </summary>
-    public class ProductDto : BaseDto
+    public class ProductDto : NamedBaseDto
     {
         /// <summary>
         /// Получает или задает стоимость продукта в рублях.

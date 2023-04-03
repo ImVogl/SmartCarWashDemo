@@ -5,13 +5,13 @@ namespace SmartCarWashDemo.Model.Dto.Sales
     /// <summary>
     /// DTO со сведениями о проданном товаре.
     /// </summary>
-    public class SaleDataDto
+    public class SaleDataBaseDto
     {
         /// <summary>
         /// Получает или задает идентификатор проданного продукта.
         /// </summary>
         [JsonRequired]
-        [JsonProperty("id")]
+        [JsonProperty("product_id")]
         public long ProductId { get; set; }
 
         /// <summary>
@@ -21,11 +21,5 @@ namespace SmartCarWashDemo.Model.Dto.Sales
         [JsonProperty("quantity")]
         public int ProductQuantity { get; set; }
 
-        /// <summary>
-        /// Получает или задает общую стоимость проданного товара.
-        /// </summary>
-        [JsonRequired]
-        [JsonProperty("amount")]
-        public float ProductAmount { get; set; }
     }
 }

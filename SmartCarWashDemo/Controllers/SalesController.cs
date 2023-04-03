@@ -62,6 +62,7 @@ namespace SmartCarWashDemo.Controllers
         /// <summary>
         /// Добавление нового акта продажи.
         /// </summary>
+        /// <param name="dto">Сведения об акте продажи.</param>
         /// <returns>Результат выполнения запроса.</returns>
         /// <response code="200">Добавлена новый акт продажи.</response>
         /// <response code="400">DTO содержит некорректные значения полей.</response>
@@ -69,7 +70,7 @@ namespace SmartCarWashDemo.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("~/[controller]/add")]
-        public IActionResult Add([FromBody] FullSaleDto dto)
+        public IActionResult Add([FromBody] SaleDto dto)
         {
             if (!_validator.Validate(dto))
             {
@@ -99,7 +100,7 @@ namespace SmartCarWashDemo.Controllers
         /// <summary>
         /// Обновление сведений о существующем акте продажи.
         /// </summary>
-        /// <param name="dto"><see cref="FullSaleDto"/>.</param>
+        /// <param name="dto">Сведения об акте продажи.</param>
         /// <returns>Результат выполнения запроса.</returns>
         /// <response code="200">Акт продажи был обновлен.</response>
         /// <response code="400">Введено некорректное название сведений акта продажи.</response>
@@ -107,7 +108,7 @@ namespace SmartCarWashDemo.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("~/[controller]/update")]
-        public IActionResult Update([FromBody] FullSaleDto dto)
+        public IActionResult Update([FromBody] SaleDto dto)
         {
             if (!_validator.Validate(dto))
             {
@@ -164,7 +165,7 @@ namespace SmartCarWashDemo.Controllers
         /// <response code="200">Получены сведения об акте продажи.</response>
         /// <response code="400">Не удалось найти акт продажи с заданным идентификатором.</response>
         /// <response code="500">Неизвестная ошибка.</response>
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FullSaleDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResultSaleDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("~/[controller]/get/{id}")]
         public IActionResult Get(long id)
@@ -217,7 +218,7 @@ namespace SmartCarWashDemo.Controllers
                     return BadRequest();
                 }
 
-                foreach (var key in pointProducts.Keys)
+                foreach (var key in dtoProducts.Keys)
                 {
                     pointProducts[key] -= dtoProducts[key].ProductQuantity;
                     if (pointProducts[key] >= 0)
@@ -255,7 +256,7 @@ namespace SmartCarWashDemo.Controllers
         /// <summary>
         /// Логгирование ошибки, связанной с некорректным DTO.
         /// </summary>
-        /// <param name="dto"><see cref="FullSaleDto"/>.</param>
+        /// <param name="dto"><see cref="ResultSaleDto"/>.</param>
         private void LogBadDto(SaleDto dto)
         {
             var salesDataMessage = dto.SalesData
@@ -263,7 +264,7 @@ namespace SmartCarWashDemo.Controllers
                     string.Empty,
                     (result, data) =>
                         result +
-                        $"Идентификатор продукта {data.ProductId}; общее число проданных товаров {data.ProductQuantity}; общая стоимость товаров {data.ProductAmount};\r\n");
+                        $"Идентификатор продукта {data.ProductId}; общее число проданных товаров {data.ProductQuantity};\r\n");
 
             var message =
                 string.Format(
@@ -279,28 +280,24 @@ namespace SmartCarWashDemo.Controllers
         /// <summary>
         /// Преобразование DTO в сущность базы данных.
         /// </summary>
-        /// <param name="dto"><see cref="FullSaleDto"/>.</param>
+        /// <param name="dto"><see cref="ResultSaleDto"/>.</param>
         /// <returns><see cref="SaleInfo"/>.</returns>
         private SaleInfo ConvertDtoToInfo(SaleDto dto)
         {
-            var salesData = dto.SalesData
-                .Select(data => new SaleData { ProductId = data.ProductId, ProductAmount = data.ProductAmount, ProductQuantity = data.ProductQuantity }).ToList();
-
             var now = DateTime.Now;
             return new SaleInfo
             {
-                Id = dto.Id,
+                Id = dto.Id ?? -1,
                 SalesPointId = dto.SalesPointId,
                 CustomerId = dto.CustomerId,
-                SalesData = salesData.Select(data => new SaleDataInfo
+                SalesData = dto.SalesData.Select(data => new SaleDataInfo
                 {
-                    ProductAmount = data.ProductAmount, ProductId = data.ProductId,
+                    ProductId = data.ProductId,
                     ProductQuantity = data.ProductQuantity
                 }).ToList(),
 
                 Date = now.Date,
-                Time = now.TimeOfDay,
-                TotalAmount = salesData.Aggregate(0f, (sum, item) => sum + item.ProductAmount)
+                Time = now.TimeOfDay
             };
         }
 
@@ -308,10 +305,10 @@ namespace SmartCarWashDemo.Controllers
         /// Преобразует сущность база данных в DTO.
         /// </summary>
         /// <param name="entity"><see cref="Sale"/>.</param>
-        /// <returns><see cref="FullSaleDto"/>.</returns>
-        private FullSaleDto ConvertEntityToDto(Sale entity)
+        /// <returns><see cref="ResultSaleDto"/>.</returns>
+        private ResultSaleDto ConvertEntityToDto(Sale entity)
         {
-            return new FullSaleDto
+            return new ResultSaleDto
             {
                 Id = entity.Id,
                 SalesPointId = entity.SalesPoint.Id,
@@ -320,7 +317,7 @@ namespace SmartCarWashDemo.Controllers
                 SellDateTime = entity.Date.Add(entity.Time),
                 SalesData = entity.SalesData
                     .Select(data =>
-                        new SaleDataDto
+                        new ResultSaleDataDto
                         {
                             ProductId = data.ProductId,
                             ProductQuantity = data.ProductQuantity,

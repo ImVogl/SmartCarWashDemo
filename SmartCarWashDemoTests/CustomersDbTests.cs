@@ -112,8 +112,7 @@ namespace SmartCarWashDemoTests
                 SalesData = new List<SaleDataInfo>(),
                 Date = DateTime.Now,
                 SalesPointId = salesPointContext.SalesPoints.First().Id,
-                Time = TimeSpan.FromHours(10),
-                TotalAmount = 0f
+                Time = TimeSpan.FromHours(10)
             });
             
             _context.AddSale(customer.Id, saleId);

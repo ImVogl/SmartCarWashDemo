@@ -55,6 +55,7 @@ namespace SmartCarWashDemo
         /// </summary>
         public void InitTables()
         {
+            _customersDb.ReInitDatabase();
             _customersDb.AddCustomer("Иван");
             var peterId = _customersDb.AddCustomer("Петр");
 
@@ -110,12 +111,11 @@ namespace SmartCarWashDemo
                 CustomerId = null,
                 Date = DateTime.Now,
                 Time = TimeSpan.FromHours(14),
-                TotalAmount = 899.9f + 8 * 109.99f + 3 * 44.99f,
                 SalesData = new List<SaleDataInfo>
                 {
-                    new () { ProductId = appleId, ProductQuantity = 10, ProductAmount = 899.9f },
-                    new () { ProductId = orangeId, ProductQuantity = 8, ProductAmount = 8 * 109.99f },
-                    new () { ProductId = pearId, ProductQuantity = 5, ProductAmount = 3 * 44.99f }
+                    new () { ProductId = appleId, ProductQuantity = 10},
+                    new () { ProductId = orangeId, ProductQuantity = 8 },
+                    new () { ProductId = pearId, ProductQuantity = 5 }
                 }
             };
 
@@ -125,12 +125,11 @@ namespace SmartCarWashDemo
                 CustomerId = peterId,
                 Date = DateTime.Now,
                 Time = TimeSpan.FromHours(14),
-                TotalAmount = 180f + 2 * 69.99f + 5 * 159.99f,
                 SalesData = new List<SaleDataInfo>
                 {
-                    new () { ProductId = tomatoId, ProductQuantity = 10, ProductAmount = 180f },
-                    new () { ProductId = cucumberId, ProductQuantity = 8, ProductAmount = 2 * 69.99f },
-                    new () { ProductId = carrotId, ProductQuantity = 5, ProductAmount = 5 * 159.99f }
+                    new () { ProductId = tomatoId, ProductQuantity = 10 },
+                    new () { ProductId = cucumberId, ProductQuantity = 8 },
+                    new () { ProductId = carrotId, ProductQuantity = 5 }
                 }
             };
 

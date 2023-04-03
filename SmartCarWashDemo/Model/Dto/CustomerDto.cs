@@ -7,7 +7,7 @@ namespace SmartCarWashDemo.Model.Dto
     /// <summary>
     /// DTO со сведениями о покупателе.
     /// </summary>
-    public class CustomerDto : BaseDto
+    public class CustomerDto : NamedBaseDto
     {
         /// <summary>
         /// Получает или задает коллекцию идентификаторов актов продаж.

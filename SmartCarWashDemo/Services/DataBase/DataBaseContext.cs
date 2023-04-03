@@ -14,7 +14,7 @@ namespace SmartCarWashDemo.Services.DataBase
         public DataBaseContext(DbContextOptions options) : base(options)
         {
         }
-
+        
         /// <inheritdoc />
         public void ReInitDatabase()
         {

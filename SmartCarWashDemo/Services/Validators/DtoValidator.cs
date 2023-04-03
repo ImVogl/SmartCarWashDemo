@@ -42,7 +42,7 @@ namespace SmartCarWashDemo.Services.Validators
         }
 
         /// <inheritdoc />
-        public bool Validate(FullSaleDto dto)
+        public bool Validate(ResultSaleDto dto)
         {
             if (dto == null)
                 return false;

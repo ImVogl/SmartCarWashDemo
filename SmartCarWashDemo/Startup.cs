@@ -60,14 +60,14 @@ namespace SmartCarWashDemo
                 endpoints.MapControllers();
             });
 
-            using var serviceScope = app.ApplicationServices.CreateScope();
-            var tablesCreator = new CreateTables(
-                serviceScope.ServiceProvider.GetRequiredService<ICustomersDataBase>(),
-                serviceScope.ServiceProvider.GetRequiredService<IProductsDataBase>(),
-                serviceScope.ServiceProvider.GetRequiredService<ISalesDataBase>(),
-                serviceScope.ServiceProvider.GetRequiredService<ISalesPointsDataBase>());
-
-            tablesCreator.InitTables();
+            using var scope = app.ApplicationServices.CreateScope();
+            var createTablesService = new CreateTables(
+            scope.ServiceProvider.GetRequiredService<ICustomersDataBase>(),
+            scope.ServiceProvider.GetRequiredService<IProductsDataBase>(),
+            scope.ServiceProvider.GetRequiredService<ISalesDataBase>(),
+            scope.ServiceProvider.GetRequiredService<ISalesPointsDataBase>());
+            
+            createTablesService.InitTables();
         }
 
         /// <summary>
@@ -76,13 +76,8 @@ namespace SmartCarWashDemo
         /// <param name="services">έκηεμολÿπ <see cref="IServiceCollection"/>.</param>
         private void ConfigureContainer(IServiceCollection services)
         {
-            var option = new DbContextOptionsBuilder<DataBaseContext>()
-                .UseInMemoryDatabase(databaseName: "smart_car_wash")
-                .EnableSensitiveDataLogging()
-                .Options;
-
             services.AddScoped<IDtoValidator, DtoValidator>();
-            services.AddScoped(_ => new DataBaseContext(option));
+            services.AddDbContext<DataBaseContext>((_, options) => options.UseInMemoryDatabase("smart_car_washing").EnableSensitiveDataLogging());
             services.AddScoped<ICustomersDataBase>(provider => provider.GetRequiredService<DataBaseContext>());
             services.AddScoped<IProductsDataBase>(provider => provider.GetRequiredService<DataBaseContext>());
             services.AddScoped<ISalesDataBase>(provider => provider.GetRequiredService<DataBaseContext>());

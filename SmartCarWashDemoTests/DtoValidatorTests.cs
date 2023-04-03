@@ -59,7 +59,7 @@ namespace SmartCarWashDemoTests
                 DtoValidator.Validate(new SaleDto
                 {
                     Id = 10,
-                    SalesData = new List<SaleDataDto>(),
+                    SalesData = new List<SaleDataBaseDto>(),
                     CustomerId = null,
                     SalesPointId = -10,
                 }), Is.False);
@@ -68,7 +68,7 @@ namespace SmartCarWashDemoTests
                 DtoValidator.Validate(new SaleDto
                 {
                     Id = 10,
-                    SalesData = new List<SaleDataDto>(),
+                    SalesData = new List<SaleDataBaseDto>(),
                     CustomerId = null,
                     SalesPointId = 10
                 }), Is.True);
@@ -78,35 +78,35 @@ namespace SmartCarWashDemoTests
         [Description("ѕроход всех кейсов дл€ полных DTO актов продаж.")]
         public void FullSaleDtoValidationTest()
         {
-            Assert.That(DtoValidator.Validate((FullSaleDto)null), Is.False);
+            Assert.That(DtoValidator.Validate((ResultSaleDto)null), Is.False);
             Assert.That(
-                DtoValidator.Validate(new FullSaleDto
+                DtoValidator.Validate(new ResultSaleDto
                 {
                     Id = 10,
                     SalesData = null,
-                    TotalAmount = null,
+                    TotalAmount = 10f,
                     CustomerId = null,
                     SalesPointId = 10,
                     SellDateTime = DateTime.Now
                 }), Is.False);
 
             Assert.That(
-                DtoValidator.Validate(new FullSaleDto
+                DtoValidator.Validate(new ResultSaleDto
                 {
                     Id = 10,
-                    SalesData = new List<SaleDataDto>(),
-                    TotalAmount = null,
+                    SalesData = new List<ResultSaleDataDto>(),
+                    TotalAmount = 10f,
                     CustomerId = null,
                     SalesPointId = -10,
                     SellDateTime = DateTime.Now
                 }), Is.False);
 
             Assert.That(
-                DtoValidator.Validate(new FullSaleDto
+                DtoValidator.Validate(new ResultSaleDto
                 {
                     Id = 10,
-                    SalesData = new List<SaleDataDto>(),
-                    TotalAmount = null,
+                    SalesData = new List<ResultSaleDataDto>(),
+                    TotalAmount = 10f,
                     CustomerId = null,
                     SalesPointId = 10,
                     SellDateTime = DateTime.Now
