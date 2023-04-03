@@ -47,13 +47,13 @@ namespace SmartCarWashDemo
         /// <param name="env">έκηεμολÿπ <see cref="IWebHostEnvironment"/>.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartCarWashDemo v1"));
             }
-
+            
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
